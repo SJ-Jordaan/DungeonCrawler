@@ -13,6 +13,8 @@ public class CombatView {
     public int playerHealth;
     public int enemyHealth;
     public int maxHealth;
+    private char wordlist[][][];
+  //public int actions[];
     public static final String TEXT_RESET = "\u001B[0m";
     public static final String TEXT_BLACK = "\u001B[30m";
     public static final String TEXT_RED = "\u001B[31m";
@@ -31,14 +33,26 @@ public class CombatView {
     {
         //System.out.println("Working Directory = " + System.getProperty("user.dir"));
         char[][] fileRes = new char[maxlines][maxcolumns];
+        
         try {
             File myObj = new File(filename);
             Scanner myReader = new Scanner(myObj);
             int i = 0;
             while (myReader.hasNextLine()) {
               String data = myReader.nextLine();
-              fileRes[i] = data.toCharArray();
+              for(int a = 0; a < maxcolumns; a++)
+              {
+                if(a >= data.toCharArray().length)
+                fileRes[i][a] = ' ';
+                else
+                {
+                    fileRes[i][a] = data.toCharArray()[a];
+                }
+                //System.out.print(fileRes[i][a]);
+              }
+              //System.out.println("");
               i++;
+              
             }
             myReader.close();
           } catch (FileNotFoundException e) {
@@ -51,15 +65,16 @@ public class CombatView {
     public static void main( String[] args )
     {
         char[][] player = new char[20][20];
-        char[][] enemy = new char[20][20];
-        char[][] playerText = {{'|','~',')','|',' ','_',' ',' ',' ',' ','_',' ',' ','_','.'},
-                               {'|','~',' ','|','(','_','|','\\','/','(','/','_','|',' ','.'},
-                               {' ',' ',' ',' ',' ',' ',' ','/',' ',' ',' ',' ',' ',' ',' '}};
-        char[][] enemyText = {{'(','~',' ','_',' ',' ','_',' ',' ','_',' ','_',' ',' ',' ','.'},
-                              {'(','_','|',' ','|','(','/','_','|',' ','|',' ','|','\\','/','.'},
-                              {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','/',' ',' '}};
+        char[][] enemy = new char[60][60];
         CombatView cw = new CombatView();
-        
+        cw.letterArr = cw.readFile("Letters.txt", 6, 171);
+        char[][] playerText = cw.toText("Player");
+        char[][] enemyText = cw.toText("Enemy");
+        String[] actions = {"rock Attack" , "paper Attack" ,"scissor Attack" ,"rock Spell" ,"paper Spell" ,"scissor Spell" ,"Heal" ,"Defend" , "Cower"};
+        cw.wordlist = new char[9][3][70];
+        for(int i = 0; i < 9; i++)
+            cw.wordlist[i] = cw.toText(actions[i]);
+
         char[][] map = cw.createCombatView(player, enemy, playerText, enemyText);
     }
 
@@ -78,6 +93,10 @@ public class CombatView {
             {
                 i = (c-97) * 3 + 78;
             }
+            else if(c == ' ')
+            {
+                i=53*3;
+            }
             int j = 0;
             boolean letterEnd = false;
             do
@@ -90,13 +109,18 @@ public class CombatView {
                 if(letterArr[i][j] == ' ' && letterArr[i+1][j] == ' ' && letterArr[i+2][j] == ' ')
                     letterEnd = true;
             }while(!letterEnd);
+            text[0][indexCount] = ' ';
+            text[1][indexCount] = ' ';
+            text[2][indexCount] = ' ';
+            indexCount++;
         }
         return text;
     }
 
     public char[][] createCombatView(char[][] player, char[][] enemy, char[][] playerText, char[][] enemyText)
     {
-        letterArr = readFile("Letters.txt", 6, 159);
+        
+        enemy = readFile("Enemies.txt", 110, 70);
         char[][] combatView = new char[width][height];
         height = 50;
         width = 220;
@@ -121,11 +145,11 @@ public class CombatView {
                 }
                 else if(y >= 1 && y <= 3)
                 {
-                    if(x>=4 && x < playerText[0].length + 4)
+                    if(x>=4 && x < playerText[0].length + 4 && playerText[y-1][x-4] != 0)
                     {
                         System.out.print(playerText[y-1][x-4]);
                     }
-                    else if(x>=width - maxHealth - 7 && x < enemyText[0].length + width - maxHealth - 7)
+                    else if(x>=width - maxHealth - 7 && x < enemyText[0].length + width - maxHealth - 7 && enemyText[y-1][x-113] != 0)
                     {
                         System.out.print(enemyText[y-1][x-113]);
                     }
@@ -157,11 +181,23 @@ public class CombatView {
                     System.out.print('#');
                     
                 }
-                else if(y > height - 14 && y < height - 10 && (x < width/3) && x >= 5)
+                else if(y > height - 14 && y < height - 2)
+                {// && (x < width/3) && x >= 5
+                    //char[][] word = toText("Testing");
+                    int ygroup = (y - height + 13)/4;
+                    int xgroup = x/(width/3);
+                    //System.out.print( y - height + 13-4*ygroup);
+                    if(x-5 - xgroup*(width/3)>= 0 && ( y - height + 13-4*ygroup) < 3 && wordlist[ygroup+3*xgroup][ y - height + 13-4*ygroup][x-5 - xgroup*(width/3)] != 0)
+                        System.out.print(wordlist[ygroup+3*xgroup][y - height + 13-4*ygroup][x-5 - xgroup*(width/3)]);
+                    else
+                        System.out.print(' ');
+                }
+                else if(x >= 110 && x < 220 && y >= 8 && y <= 34)
                 {
-                    char[][] word = toText("Testing");
-                    if(word[ y - height + 13][x-5] != 0)
-                        System.out.print(word[  y - height + 13][x-5]);
+                    //System.out.println("y: " + (y - 8) + "x: " + (x-60));
+                    if( x < enemy[ y - 8].length + 200)
+                       { System.out.print(enemy[ y - 8][x-110]);
+                        }
                     else
                         System.out.print(' ');
                 }

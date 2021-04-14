@@ -74,7 +74,8 @@ public class CombatView {
         cw.wordlist = new char[9][3][70];
         for(int i = 0; i < 9; i++)
             cw.wordlist[i] = cw.toText(actions[i]);
-
+        enemy = cw.readFile("Enemies.txt", 110, 70);
+        player = cw.readFile("Players.txt", 110, 70);
         char[][] map = cw.createCombatView(player, enemy, playerText, enemyText);
     }
 
@@ -120,7 +121,7 @@ public class CombatView {
     public char[][] createCombatView(char[][] player, char[][] enemy, char[][] playerText, char[][] enemyText)
     {
         
-        enemy = readFile("Enemies.txt", 110, 70);
+        
         char[][] combatView = new char[width][height];
         height = 50;
         width = 220;
@@ -147,11 +148,11 @@ public class CombatView {
                 {
                     if(x>=4 && x < playerText[0].length + 4 && playerText[y-1][x-4] != 0)
                     {
-                        System.out.print(playerText[y-1][x-4]);
+                        System.out.print(TEXT_BLUE + playerText[y-1][x-4] + TEXT_RESET);
                     }
                     else if(x>=width - maxHealth - 7 && x < enemyText[0].length + width - maxHealth - 7 && enemyText[y-1][x-113] != 0)
                     {
-                        System.out.print(enemyText[y-1][x-113]);
+                        System.out.print(TEXT_GREEN + enemyText[y-1][x-113] + TEXT_RESET);
                     }
                     else
                     {
@@ -192,11 +193,21 @@ public class CombatView {
                     else
                         System.out.print(' ');
                 }
-                else if(x >= 110 && x < 220 && y >= 8 && y <= 34)
+                else if(x >= 140 && x < 220 && y >= 8 && y <= 34)
                 {
                     //System.out.println("y: " + (y - 8) + "x: " + (x-60));
                     if( x < enemy[ y - 8].length + 200)
-                       { System.out.print(enemy[ y - 8][x-110]);
+                       { System.out.print(enemy[ y - 8][x-140]);
+                        }
+                    else
+                        System.out.print(' ');
+                }
+                else if(x >= 40 && x < 110 && y >= 15 && y <= 34)
+                {   
+
+                    //System.out.println("y: " + (y - 8) + "x: " + (x-10));
+                    if( x < player[ y - 15].length + 100 && player[ y - 15][x-40] != 0)
+                       { System.out.print(player[ y - 15][x-40]);
                         }
                     else
                         System.out.print(' ');

@@ -1,4 +1,4 @@
-package com.hive.rpg;
+package com.hive.rpg.models;
 
 import java.awt.Color;
 
@@ -23,9 +23,9 @@ public class MapTile extends Entity {
         return this.backgroundColour;
     }
 
-    public MapTile(String name, EntityType type, int[] coord, char glyph, Color colour, Color backgroundColour, boolean pathable) {
-        super(name, type, coord, glyph, colour);
-        this.backgroundColour = backgroundColour;
-        this.pathable = pathable;
+    public MapTile(String name, int[] coord, EntityType type) {
+        super(name, type, coord);
+        this.backgroundColour = type.getBackgrounColour();
+        this.pathable = type.isPathable();
     }
 }

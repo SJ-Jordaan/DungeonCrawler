@@ -1,4 +1,4 @@
-package com.hive.rpg;
+package com.hive.rpg.models;
 
 import java.awt.Color;
 
@@ -8,13 +8,13 @@ public class Entity {
      * Entity specific members
      */
     protected String name;
-    protected EntityType type;
     /**
      * Map related members
      */
     protected int[] coord;
     protected char glyph;
     protected Color colour;
+    protected String type;
 
     /**
      * Get x coordinate
@@ -41,23 +41,17 @@ public class Entity {
         return this.glyph;
     }
     /**
-     * Get the type of entity
-     */
-    public EntityType getType() {
-        return this.type;
-    }
-    /**
      * Get entities colour
      */
     public Color getColour() {
         return this.colour;
     }
 
-    public Entity(String name, EntityType type, int[] coord, char glyph, Color colour) {
+    public Entity(String name, EntityType type, int[] coord) {
         this.name = name;
-        this.type = type;
-        this.glyph = glyph;
         this.coord = coord;
-        this.colour = colour;
+        this.type = type.getType();
+        this.glyph = type.getGlyph();
+        this.colour = type.getColour();
     }
 }

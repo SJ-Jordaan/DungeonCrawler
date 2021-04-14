@@ -10,27 +10,22 @@ import com.hive.rpg.models.*;
 public class App 
 {
     private static Map map;
-    private static int MAP_WIDTH = 500;
-    private static int MAP_HEIGHT = 500;
+    private static int MAP_WIDTH = 175;
+    private static int MAP_HEIGHT = 60;
+    private static int UI_WIDTH = 500;
+    private static int UI_HEIGHT = 500;
     
     public static void main( String[] args )
     {
         // Testing stuff for outputting generated map
-        // createMap();
-        
-        // for (int i = 0; i < MAP_WIDTH; i++) {
-        //     for (int y = 0; y < MAP_HEIGHT; y++) {
-        //         int[] coord = {i,y};
-        //         System.out.print(map.getTile(coord).getGlyph());
-        //     }
-        //     System.out.println();
-        // }
+        createMap();
         
         boolean isRunning;
         int framesPerSecond = 60;
         int timePerLoop = 1000000000 / framesPerSecond;
         Screen screen;
-        screen = new Screen(MAP_WIDTH,MAP_HEIGHT);
+        screen = new Screen(UI_WIDTH,UI_HEIGHT);
+        screen.outputMap(MAP_WIDTH, MAP_HEIGHT, map);
         isRunning = true;
 
         while(isRunning) {
@@ -55,7 +50,7 @@ public class App
     private static void createMap() {
         map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
         .populate("wall", EntityType.Wall)
-        .generateRandomMap(12232, 10, 10, 9000)
+        .generateRandomMap(1092, 10, 10, 35000)
         .build();
     }
 }

@@ -10,8 +10,8 @@ import com.hive.rpg.models.*;
 public class App 
 {
     private static Map map;
-    private static int MAP_WIDTH = 175;
-    private static int MAP_HEIGHT = 60;
+    private static int MAP_WIDTH = 54;
+    private static int MAP_HEIGHT = 29;
     private static int UI_WIDTH = 500;
     private static int UI_HEIGHT = 500;
     
@@ -20,6 +20,7 @@ public class App
         // Testing stuff for outputting generated map
         createMap();
         
+
         boolean isRunning;
         int framesPerSecond = 60;
         int timePerLoop = 1000000000 / framesPerSecond;
@@ -48,9 +49,15 @@ public class App
     }
     
     private static void createMap() {
+
+        EntityType[] types = {
+            EntityType.Bat,
+            EntityType.Farmer
+        };
         map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
         .populate("wall", EntityType.Wall)
-        .generateRandomMap(1092, 10, 10, 35000)
+        .generateRandomMap(1, 10, 10, 2500)
+        .populateMap(5, types)
         .build();
     }
 }

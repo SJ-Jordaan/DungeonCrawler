@@ -5,6 +5,7 @@ import javax.swing.*;
 import asciiPanel.AsciiPanel;
 import com.hive.rpg.InputHandler;
 import com.hive.rpg.map.Map;
+import com.hive.rpg.models.MapTile;
 
 public class Screen extends JFrame {
 
@@ -25,7 +26,8 @@ public class Screen extends JFrame {
         for (int i = 0; i < MAP_WIDTH; i++) {
             for (int y = 0; y < MAP_HEIGHT; y++) {
                 int[] coord = {i,y};
-                this.terminal.write(map.getTile(coord).getGlyph(), i, y);
+                MapTile tile = map.getTile(coord);
+                this.terminal.write(tile.getGlyph(), i, y, tile.getColour(), tile.getBackgroundColor());
             }
         }
         this.terminal.repaint();

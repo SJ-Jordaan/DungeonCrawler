@@ -62,4 +62,29 @@ public class MapFactory {
         }
         return this;
     }
+
+    public Entity createLivingEntity(String name, EntityType type, int[] coord) {
+        return new Entity(name, type, coord);
+    }
+
+    public MapFactory populateMap(int numberOfEntities, EntityType[] types) {
+        Random randomNumber = new Random();
+        int x;
+        int y;
+        int entityType;
+
+        for (int i = 0; i < numberOfEntities; i++) {
+
+            do {
+                x = randomNumber.nextInt(width);
+                y = randomNumber.nextInt(height);
+            } while (!tiles[x][y].isPathable());
+
+            entityType = randomNumber.nextInt(types.length);
+            int[] coord = {x,y};
+            entities.add(createLivingEntity("Entity", types[entityType], coord));
+            tiles[x][y] = createTile("Entity", types[entityType], coord);
+        }
+        return this;
+    }
 }

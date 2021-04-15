@@ -79,6 +79,20 @@ public class Map {
         return tiles[coord[0]][coord[1]];
     }
 
+    public <T extends Entity> T getEntityAt(Class<T> type, int[] coord) {
+        if (type == MapTile.class) {
+            return type.cast(tiles[coord[0]][coord[1]]);
+        } else if (type == Entity.class) {
+            Entity e = entities.stream()
+            .filter(entity -> entity.getX() == coord[0] && entity.getY() == coord[1])
+            .findFirst()
+            .orElse(null);
+            return type.cast(e);
+        }
+
+        return null;
+    }
+
     public boolean isPathableTerrain(int [] coord) {
         return (tiles[coord[0]][coord[1]].isPathable());
     }

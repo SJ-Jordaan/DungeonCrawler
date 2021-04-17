@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import com.hive.rpg.InputHandler;
+import com.hive.rpg.Player;
 import com.hive.rpg.models.*;
 
 public class MapFactory {
@@ -11,7 +13,7 @@ public class MapFactory {
     private MapTile[][] tiles;
     private int width;
     private int height;
-    public Entity player;
+    public Player player;
     public Set<Entity> entities;
 
     public MapFactory(int width, int height) {
@@ -35,8 +37,22 @@ public class MapFactory {
         return this;
     }
 
+    public MapFactory placePlayer() {
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                if (this.tiles[i][j].isPathable()) {
+                    int [] coord = {i,j};
+                    player = new Player(coord);
+                    //this.tiles[i][j] = createTile("player", EntityType.Player, coord);
+                    return this;
+                }
+            }
+        }
+        return this;
+    }
+
     public Map build() {
-        return new Map(this.tiles, this.entities, this.width, this.height);
+        return new Map(this.tiles, this.entities, this.player, this.width, this.height);
     }
 
     public MapFactory generateRandomMap(int seed, int startX, int startY, int length) {
@@ -93,7 +109,7 @@ public class MapFactory {
             entityType = randomNumber.nextInt(types.length);
             int[] coord = {x,y};
             entities.add(createLivingEntity("Entity", types[entityType], coord));
-            tiles[x][y] = createTile("Entity", types[entityType], coord);
+            //tiles[x][y] = createTile("Entity", types[entityType], coord);
         }
         return this;
     }

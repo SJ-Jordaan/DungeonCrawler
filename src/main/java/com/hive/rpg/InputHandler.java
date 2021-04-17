@@ -12,6 +12,7 @@ import java.util.Queue;
 public class InputHandler implements KeyListener {
     private final Queue<InputEvent> inputQueue;
     private final Map<Integer, String> keyMap;
+    public String last = "0";
 
     public InputHandler() {
         inputQueue = new LinkedList<InputEvent>();
@@ -38,7 +39,11 @@ public class InputHandler implements KeyListener {
         if (event instanceof KeyEvent) {
             KeyEvent keyPress = (KeyEvent)event;
             String out = keyMap.get(keyPress.getKeyCode());
-            System.out.println(out != null ? out : "Key not mapped");
+            if (out != null) {
+                last = out;
+                return;
+            }
         }
+        last = "0";
     }
 }

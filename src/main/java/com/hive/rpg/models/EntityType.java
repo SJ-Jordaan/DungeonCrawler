@@ -3,7 +3,7 @@ package com.hive.rpg.models;
 import java.awt.Color;
 
 public enum EntityType {
-    Player('@', Color.white),
+    Player('@', Color.green),
     Bat('B', Color.red, "Enemy"),
     Farmer('F', Color.blue, "Ally"),
     Pig('P', Color.green, "Neutral"),
@@ -15,7 +15,7 @@ public enum EntityType {
     private char glyph;
     private Color colour;
     private String type;
-    private Color backgrounColour;
+    private Color backgroundColour;
 
     // Create player entity
     EntityType(final char glyph, final Color colour) {
@@ -34,17 +34,17 @@ public enum EntityType {
     EntityType(final char glyph, final Color colour, final Color backgroundColour, final boolean pathable) {
         this.setGlyph(glyph);
         this.setColour(colour);
-        this.setBackgrounColour(backgrounColour);
+        this.setBackgroundColour(this.backgroundColour);
         this.setPathable(pathable);
     }
 
-    public Color getBackgrounColour() {
-        return backgrounColour;
+    public Color getBackgroundColour() {
+        return backgroundColour;
     }
 
 
-    public void setBackgrounColour(Color backgrounColour) {
-        this.backgrounColour = backgrounColour;
+    public void setBackgroundColour(Color backgroundColour) {
+        this.backgroundColour = backgroundColour;
     }
 
 

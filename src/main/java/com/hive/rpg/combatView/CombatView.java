@@ -105,8 +105,6 @@ public class CombatView {
           return fileRes;
     }
     
-
-
     public char[][] toText(String sentence)
     {
         char[][] text = new char[textHeight][70];

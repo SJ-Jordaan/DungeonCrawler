@@ -67,6 +67,16 @@ public class MapFactory {
         return new Entity(name, type, coord);
     }
 
+    public MapFactory carveOutRoom(int bottomX, int bottomY, int width, int height) {
+        for (int x = bottomX; x < (bottomX + width); x++) {
+            for (int y = bottomY; y < (bottomY + height); y++) {
+                int[] coord = {x,y};
+                tiles[x][y] = createTile("Room floor", EntityType.Path, coord);
+            }
+        }
+        return this;
+    }
+
     public MapFactory populateMap(int numberOfEntities, EntityType[] types) {
         Random randomNumber = new Random();
         int x;

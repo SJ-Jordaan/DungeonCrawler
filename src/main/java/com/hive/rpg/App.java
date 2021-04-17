@@ -1,6 +1,5 @@
 package com.hive.rpg;
 
-import com.hive.rpg.map.Map;
 import com.hive.rpg.map.*;
 import com.hive.rpg.models.*;
 /**
@@ -18,7 +17,8 @@ public class App
     public static void main( String[] args )
     {
         // Testing stuff for outputting generated map
-        createMap();
+        // createMap();
+        createTutorialMap();
         
 
         boolean isRunning;
@@ -58,6 +58,18 @@ public class App
         .populate("wall", EntityType.Wall)
         .generateRandomMap(1, 10, 10, 2500)
         .populateMap(5, types)
+        .build();
+    }
+
+    private static void createTutorialMap() {
+
+        EntityType[] tutorialEnemy = {
+            EntityType.Pig
+        };
+        map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
+        .populate("wall", EntityType.Wall)
+        .carveOutRoom(1, 1, MAP_WIDTH-2, MAP_HEIGHT-2)
+        .populateMap(25, tutorialEnemy)
         .build();
     }
 }

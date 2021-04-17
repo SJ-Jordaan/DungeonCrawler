@@ -74,7 +74,7 @@ public class CombatView {
 
     private char[][] readFile(String filename, int maxcolumns, int maxlines)
     {
-        //System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        //combatView[x][y] = ln("Working Directory = " + System.getProperty("user.dir"));
         char[][] fileRes = new char[maxlines][maxcolumns];
         
         try {
@@ -91,15 +91,15 @@ public class CombatView {
                 {
                     fileRes[i][a] = data.toCharArray()[a];
                 }
-                //System.out.print(fileRes[i][a]);
+                //combatView[x][y] = (fileRes[i][a]);
               }
-              //System.out.println("");
+              //combatView[x][y] = ln("");
               i++;
               
             }
             myReader.close();
           } catch (FileNotFoundException e) {
-            //System.out.println("An error occurred.");
+            //combatView[x][y] = ln("An error occurred.");
             e.printStackTrace();
           }
           return fileRes;
@@ -162,52 +162,52 @@ public class CombatView {
             {
                 if(y == 0 || y == height - 1)
                 {
-                    System.out.print('#');
+                    combatView[x][y] = ('#');
                 }
                 else if(x == 0 || x == width - 1)
                 {
-                    System.out.print('#');
+                    combatView[x][y] = ('#');
                 }
                 else if((y == 4 || y == 6) && ((x >= 4 && x <= maxHealth+6)||((x >= width - maxHealth - 7 && x <= width - 5))))
                 {
-                    System.out.print('=');
+                    combatView[x][y] = ('=');
                 }
                 else if(y >= 1 && y <= textHeight)
                 {
                     if(x>=4 && x < playerText[0].length + 4 && playerText[y-1][x-4] != 0)
                     {
-                        System.out.print(/*TEXT_BLUE + */playerText[y-1][x-4]/* + TEXT_RESET*/);
+                        combatView[x][y] = (/*TEXT_BLUE + */playerText[y-1][x-4]/* + TEXT_RESET*/);
                     }
                     else if(x>=width - maxHealth - 7 && x < enemyText[0].length + width - maxHealth - 7 && enemyText[y-1][x-113] != 0)
                     {
-                        System.out.print(/*TEXT_GREEN + */enemyText[y-1][x-113]/* + TEXT_RESET*/);
+                        combatView[x][y] = (/*TEXT_GREEN + */enemyText[y-1][x-113]/* + TEXT_RESET*/);
                     }
                     else
                     {
-                        System.out.print(' ');
+                        combatView[x][y] = (' ');
                     }
                 }
                 else if(y == 5 && x >= 4 && x <= width - 5)
                 {
                     if(x==4 || x == maxHealth+6 || x == width - 5 || x==width - maxHealth - 7)
-                        System.out.print('|');
+                        combatView[x][y] = ('|');
                     else if(x<=playerHealth+5)
-                        System.out.print(/*TEXT_RED + */'X'/* + TEXT_RESET*/);
+                        combatView[x][y] = (/*TEXT_RED + */'X'/* + TEXT_RESET*/);
                     else if(x>=width - 6 - enemyHealth)
                     {
-                        System.out.print(/*TEXT_RED +*/ 'X'/* + TEXT_RESET*/);
+                        combatView[x][y] = (/*TEXT_RED +*/ 'X'/* + TEXT_RESET*/);
                     }
                     else
-                        System.out.print(' ');
+                        combatView[x][y] = (' ');
 
                 }
                 else if(y == height - (menuCount*(menuHeight+2)))
                 {
-                    System.out.print('#');
+                    combatView[x][y] = ('#');
                 }
                 else if(y > height - 15 && x%(width/menuCount) == 0) //(x == width/menuCount || x == 2*width/menuCount))
                 {
-                    System.out.print('#');               
+                    combatView[x][y] = ('#');               
                 }
                 else if(y > height - 14 && y < height - 2)
                 {// && (x < width/3) && x >= 5
@@ -217,42 +217,42 @@ public class CombatView {
                     if(ygroup + xgroup*3  == selectedIndex && x >= xgroup*(width/menuCount)+2 && x <= xgroup*(width/menuCount)+4)
                     {
                         if(arrow[xgroup*(width/menuCount)+2][y - height + 13-4*ygroup] != 0)
-                            System.out.print(arrow[xgroup*(width/menuCount)+2][y - height + 13-4*ygroup]);
+                            combatView[x][y] = (arrow[xgroup*(width/menuCount)+2][y - height + 13-4*ygroup]);
                         else
-                            System.out.print(' ');
+                            combatView[x][y] = (' ');
                     }
-                    //System.out.print( ygroup+menuCount*xgroup);
+                    //combatView[x][y] = ( ygroup+menuCount*xgroup);
                     else if(x-5 - xgroup*(width/menuCount)>= 0 && ( y - height + 13-(textHeight+1)*ygroup) < 3 && wordlist[ygroup+menuCount*xgroup][ y - height + 13-4*ygroup][x-5 - xgroup*(width/menuCount)] != 0)
-                        System.out.print(wordlist[ygroup+menuCount*xgroup][ y - height + 13-4*ygroup][x-5 - xgroup*(width/menuCount)]);
+                        combatView[x][y] = (wordlist[ygroup+menuCount*xgroup][ y - height + 13-4*ygroup][x-5 - xgroup*(width/menuCount)]);
                     else
-                        System.out.print(' ');
+                        combatView[x][y] = (' ');
                 }
                 else if(x >= width/2 && x < width && y >= 8 && y <= 34)
                 {
-                    //System.out.println("y: " + (y - 8) + "x: " + (x-60));
+                    //combatView[x][y] = ln("y: " + (y - 8) + "x: " + (x-60));
                     if( x < enemy[ y - 8].length + width)
-                       { System.out.print(enemy[ y - 8][x-width/2]);
+                       { combatView[x][y] = (enemy[ y - 8][x-width/2]);
                         }
                     else
-                        System.out.print(' ');
+                        combatView[x][y] = (' ');
                 }
                 else if(x >= 0 && x < width/2 && y >= 15 && y <= 34)
                 {   
 
-                    //System.out.println("y: " + (y - 8) + "x: " + (x-10));
+                    //combatView[x][y] = ln("y: " + (y - 8) + "x: " + (x-10));
                     if( x < player[ y - 15].length + 100 && player[ y - 15][x] != 0)
-                       { System.out.print(player[ y - 15][x]);
+                       { combatView[x][y] = (player[ y - 15][x]);
                         }
                     else
-                        System.out.print(' ');
+                        combatView[x][y] = (' ');
                 }
                 else
                 {
-                    System.out.print(' ');
+                    combatView[x][y] = (' ');
                     
                 }
             }
-            System.out.print('\n');
+            combatView[x][y] = ('\n');
         }
         return combatView;
     }

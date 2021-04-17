@@ -1,6 +1,6 @@
-package com.hive.rpg.DamageSystem;
+package com.hive.rpg.controllers;
 
-import com.hive.rpg.Weapons.Weapon;
+import com.hive.rpg.models.*;
 
 public class CombatResult {
 

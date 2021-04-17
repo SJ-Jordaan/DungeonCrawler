@@ -1,7 +1,5 @@
-package com.hive.rpg.combatView;
+package com.hive.rpg.views;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.io.File;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
@@ -39,15 +37,6 @@ public class CombatView {
     public int width() { return width; }
     public int height() { return height; }
 
-    public static void main( String[] args )
-    {
-        String[] action = {"rock Attack" , "paper Attack" ,"scissor Attack" ,"rock Spell" ,"paper Spell" ,"scissor Spell" ,"Heal" ,"Defend" , "Cower"};
-        CombatView cw = new CombatView("player", "enemy", "Player", "Enemy", 80, 80, 1, action);
-        cw.createCombatView();
-    }
-
-    // public char[][] createCombatView(char[][] player, char[][] enemy, char[][] playerText, char[][] enemyText)
-
     public CombatView(String playerFile, String enemyFile, String playerName, String enemyName, int pHealth, int eHealth, int index, String[] act)
     {
 
@@ -66,14 +55,10 @@ public class CombatView {
             wordlist[i] = toText(actions[i]);
         player = readFile(playerFile+".txt", 110, 70);
         enemy = readFile(enemyFile+".txt", 110, 70);
-        //char[][] map = cw.createCombatView(player, enemy, playerText, enemyText);
     }
-
-
 
     private char[][] readFile(String filename, int maxcolumns, int maxlines)
     {
-        //combatView[x][y] = ln("Working Directory = " + System.getProperty("user.dir"));
         char[][] fileRes = new char[maxlines][maxcolumns];
 
         try {
@@ -90,15 +75,12 @@ public class CombatView {
                     {
                         fileRes[i][a] = data.toCharArray()[a];
                     }
-                    //combatView[x][y] = (fileRes[i][a]);
                 }
-                //combatView[x][y] = ln("");
                 i++;
 
             }
             myReader.close();
         } catch (FileNotFoundException e) {
-            //combatView[x][y] = ln("An error occurred.");
             e.printStackTrace();
         }
         return fileRes;

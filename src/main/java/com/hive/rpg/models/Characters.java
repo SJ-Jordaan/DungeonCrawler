@@ -1,10 +1,4 @@
-package com.hive.rpg.Players;
-
-import java.util.ArrayList;
-
-import com.hive.rpg.Weapons.Weapon;
-import com.hive.rpg.models.Entity;
-import com.hive.rpg.models.EntityType;
+package com.hive.rpg.models;
 
 public class Characters extends Entity {
     private Integer Health;

@@ -1,11 +1,7 @@
-package com.hive.rpg;
+package com.hive.rpg.controllers;
 
-import asciiPanel.AsciiPanel;
-import com.hive.rpg.Players.Player;
-import com.hive.rpg.map.Map;
-import com.hive.rpg.map.MapFactory;
-import com.hive.rpg.models.EntityType;
-import com.hive.rpg.models.State;
+import com.hive.rpg.views.*;
+import com.hive.rpg.models.*;
 
 public class GameEngine {
     public static Map map;
@@ -19,7 +15,7 @@ public class GameEngine {
 
     public static State state = State.Moving;
 
-    GameEngine() {
+    public GameEngine() {
 
     }
 
@@ -82,15 +78,15 @@ public class GameEngine {
                 .build();
     }
 
-    private static void createTutorialMap() {
+    // private static void createTutorialMap() {
 
-        EntityType[] tutorialEnemy = {
-                EntityType.Pig
-        };
-        map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
-                .populate("wall", EntityType.Wall)
-                .carveOutRoom(1, 1, MAP_WIDTH-2, MAP_HEIGHT-2)
-                .populateMap(25, tutorialEnemy)
-                .build();
-    }
+    //     EntityType[] tutorialEnemy = {
+    //             EntityType.Pig
+    //     };
+    //     map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
+    //             .populate("wall", EntityType.Wall)
+    //             .carveOutRoom(1, 1, MAP_WIDTH-2, MAP_HEIGHT-2)
+    //             .populateMap(25, tutorialEnemy)
+    //             .build();
+    // }
 }

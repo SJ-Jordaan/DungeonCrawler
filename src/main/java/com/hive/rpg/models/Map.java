@@ -1,18 +1,9 @@
-package com.hive.rpg.map;
+package com.hive.rpg.models;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.hive.rpg.CombatHandler;
-import com.hive.rpg.GameEngine;
-import com.hive.rpg.GameScreenController;
-import com.hive.rpg.GameWindow;
-import com.hive.rpg.Players.Characters;
-import com.hive.rpg.Players.Enemy;
-import com.hive.rpg.Players.Player;
-import com.hive.rpg.models.Entity;
-import com.hive.rpg.models.MapTile;
-import com.hive.rpg.models.State;
+import com.hive.rpg.controllers.*;
 
 public class Map {
 

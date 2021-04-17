@@ -1,13 +1,7 @@
-package com.hive.rpg;
+package com.hive.rpg.controllers;
 
-import com.hive.rpg.Players.Enemy;
-import com.hive.rpg.Players.Player;
-import com.hive.rpg.Weapons.Attack;
-import com.hive.rpg.Weapons.Weapon;
-import com.hive.rpg.models.EntityType;
-import com.hive.rpg.models.State;
+import com.hive.rpg.models.*;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 public class CombatHandler {

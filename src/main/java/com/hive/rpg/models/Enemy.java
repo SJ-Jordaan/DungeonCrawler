@@ -1,9 +1,4 @@
-package com.hive.rpg.Players;
-
-import java.util.ArrayList;
-
-import com.hive.rpg.Weapons.Weapon;
-import com.hive.rpg.models.EntityType;
+package com.hive.rpg.models;
 
 public class Enemy extends Characters implements ICharacterActions {
 
@@ -13,13 +8,13 @@ public class Enemy extends Characters implements ICharacterActions {
 
     @Override
     public boolean EquipWeapon(Weapon Weapon) {
-        // TODO Auto-generated method stub
+        // TODO: Add pick up weapon logic here
         return false;
     }
 
     @Override
     public boolean DropWeapon(Weapon Weapon) {
-        // TODO Auto-generated method stub
+        // TODO: Add drop weapon logic here
         return false;
     }
 }

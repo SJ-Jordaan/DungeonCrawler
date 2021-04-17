@@ -1,15 +1,8 @@
-package com.hive.rpg.Players;
+package com.hive.rpg.models;
 
 import java.util.ArrayList;
 
-import com.hive.rpg.CombatHandler;
-import com.hive.rpg.GameEngine;
-import com.hive.rpg.GameScreenController;
-import com.hive.rpg.Weapons.Attack;
-import com.hive.rpg.Weapons.Weapon;
-import com.hive.rpg.map.Map;
-import com.hive.rpg.models.EntityType;
-import com.hive.rpg.models.State;
+import com.hive.rpg.controllers.*;
 
 public class Player extends Characters implements ICharacterActions {
     public int selected_attack = 0;

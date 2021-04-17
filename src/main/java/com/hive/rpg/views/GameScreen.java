@@ -1,16 +1,15 @@
-package com.hive.rpg;
+package com.hive.rpg.views;
 
-import com.hive.rpg.Players.Player;
-import com.hive.rpg.combatView.CombatView;
-import com.hive.rpg.map.Map;
-import com.hive.rpg.map.MapFactory;
-import com.hive.rpg.models.Entity;
-import com.hive.rpg.models.EntityType;
-import com.hive.rpg.models.MapTile;
+import com.hive.rpg.controllers.*;
+import com.hive.rpg.models.*;
 
 import java.awt.event.KeyListener;
 
 public class GameScreen extends BaseScreen {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -2250594602715438858L;
     public GameScreenController controller = new GameScreenController();
 
     GameScreen(int width, int height){

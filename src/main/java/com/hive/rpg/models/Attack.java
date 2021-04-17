@@ -1,4 +1,4 @@
-package com.hive.rpg.Weapons;
+package com.hive.rpg.models;
 
 public class Attack {
     public String name;

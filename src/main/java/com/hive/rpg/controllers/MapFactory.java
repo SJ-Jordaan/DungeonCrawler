@@ -1,14 +1,10 @@
-package com.hive.rpg.map;
+package com.hive.rpg.controllers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import com.hive.rpg.Players.Enemy;
-import com.hive.rpg.Players.Player;
-import com.hive.rpg.Weapons.Attack;
-import com.hive.rpg.Weapons.Weapon;
 import com.hive.rpg.models.*;
 
 public class MapFactory {
@@ -102,7 +98,7 @@ public class MapFactory {
         Random randomNumber = new Random();
         int x;
         int y;
-        int entityType;
+        // int entityType;
 
         for (int i = 0; i < numberOfEntities; i++) {
 
@@ -111,8 +107,10 @@ public class MapFactory {
                 y = randomNumber.nextInt(height);
             } while (!tiles[x][y].isPathable());
 
-            entityType = randomNumber.nextInt(types.length);
+            // entityType = randomNumber.nextInt(types.length);
             int[] coord = {x,y};
+            
+            // TODO: Replace this with generic method for populating enemies 
             ArrayList<Attack> attacks = new ArrayList<Attack>();
             attacks.add(new Attack("SpaghettiPowaaa", 4));
             Weapon weapon = new Weapon("Hands", "You finna throw down??!!?!?!?!", attacks);

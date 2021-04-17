@@ -8,7 +8,7 @@ public class Player extends Characters implements ICharacterActions {
     public int selected_attack = 0;
     public boolean can_attack = false;
     public Player(Integer Health, Weapon weapon,  int[] coords) {
-        super("Player", Health, weapon, EntityType.Player, coords);
+        super(Health, weapon, EntityType.Player, coords);
     }
 
     @Override
@@ -64,7 +64,6 @@ public class Player extends Characters implements ICharacterActions {
             coords[1] += surrounding_coords[i][1];
             Enemy enemy = map.getEnemyAt(coords);
             if (enemy != null) {
-                System.out.println(enemy.getName());
                 combatHandler.pushEnemy(enemy);
                 GameEngine.state = State.Combat;
             }

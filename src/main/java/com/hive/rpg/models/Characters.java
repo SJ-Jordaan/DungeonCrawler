@@ -53,17 +53,15 @@ public class Characters extends Entity {
 
     // #endregion
 
-    public Characters(String Name, Integer Health, Weapon Weapon, EntityType type, int[] coords) {
-        super(Name, type, coords);
-        this.name = Name;
+    public Characters(Integer Health, Weapon Weapon, EntityType type, int[] coords) {
+        super(type, coords);
         this.Health = Health;
         this.Weapon = Weapon;
 
     }
 
-    public Characters(String Name, Integer Health, EntityType type, int[] coords) {
-        super(Name, type, coords);
-        this.name = Name;
+    public Characters(Integer Health, EntityType type, int[] coords) {
+        super(type, coords);
         this.Health = Health;
     }
 

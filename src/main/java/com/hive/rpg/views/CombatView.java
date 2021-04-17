@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 
 public class CombatView {
 
+    private String resourcePath = "src/resources/";
     public int width = 220;
     public int height = 50;
     public int playerHealth;
@@ -46,15 +47,15 @@ public class CombatView {
         selectedIndex = index;
         player = new char[20][20];
         enemy = new char[60][60];
-        letterArr = readFile("Letters.txt", 6, 171);
+        letterArr = readFile(resourcePath+"Letters.txt", 6, 171);
         arrow = toText(">");
         playerText = toText(playerName);
         enemyText = toText(enemyName);
         wordlist = new char[menuHeight*menuCount][textHeight][(int)((width)/menuCount - xBuffer)];
         for(int i = 0; i < actions.length; i++)
             wordlist[i] = toText(actions[i]);
-        player = readFile(playerFile+".txt", 110, 70);
-        enemy = readFile(enemyFile+".txt", 110, 70);
+        player = readFile(resourcePath+playerFile+".txt", 110, 70);
+        enemy = readFile(resourcePath+enemyFile+".txt", 110, 70);
     }
 
     private char[][] readFile(String filename, int maxcolumns, int maxlines)

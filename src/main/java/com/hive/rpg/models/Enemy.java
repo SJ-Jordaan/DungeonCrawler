@@ -2,8 +2,8 @@ package com.hive.rpg.models;
 
 public class Enemy extends Characters implements ICharacterActions {
 
-    public Enemy(String Name, Integer Health, Weapon Weapon, EntityType type, int[] coords) {
-        super(Name, Health, Weapon, type, coords);
+    public Enemy(Integer Health, Weapon Weapon, EntityType type, int[] coords) {
+        super(Health, Weapon, type, coords);
     }
 
     @Override

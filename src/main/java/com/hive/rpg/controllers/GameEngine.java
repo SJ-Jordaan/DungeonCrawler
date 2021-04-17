@@ -41,7 +41,7 @@ public class GameEngine {
             map.clearBodies();
             if (state == State.Moving) {
                 player.move(window.GetCurrentScreen().controller, map, combatHandler);
-                window.GetCurrentScreen().outputMap(MAP_WIDTH, MAP_HEIGHT, map);
+                window.GetCurrentScreen().outputMap(MAP_WIDTH, MAP_HEIGHT, UI_WIDTH, UI_HEIGHT, map);
             } else if (state == State.Combat) {
                 if (combatHandler.processCombat()) {
                     window.GetCurrentScreen().outputCombat(combatHandler);
@@ -67,13 +67,13 @@ public class GameEngine {
     private static void createMap() {
 
         EntityType[] types = {
-                EntityType.Bat,
-                EntityType.Farmer
+                EntityType.Bull,
+                EntityType.Skeleton
         };
         map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
                 .populate("wall", EntityType.Wall)
                 .generateRandomMap(2, 10, 10, MAP_WIDTH*MAP_HEIGHT*(4-level))
-                .populateMap(5, types)
+                .populateMap(10, types)
                 .placePlayer()
                 .build();
     }

@@ -1,13 +1,9 @@
 package com.hive.rpg.Weapons;
 
-public class Weapon implements IWeapon {
+public class Weapon {
     private String Name;
     private String Description;
-    private WeaponType Type;
-    private WeaponAttribute Attribute;
-    private Integer WeaponTypeCombatValue;
-
-    private final Integer BaseCombatValue;
+    private Integer CombatValue;
 
     // #region Getters & Setters
     /**
@@ -39,64 +35,20 @@ public class Weapon implements IWeapon {
     }
 
     /**
-     * @return WeaponType return the Type
+     * @return Integer return the BaseCombatValue
      */
-    public WeaponType getType() {
-        return Type;
-    }
-
-    /**
-     * @param Type the Type to set
-     */
-    private void setType(WeaponType Type) {
-        this.Type = Type;
-    }
-
-    /**
-     * @return WeaponAttribute return the Attribute
-     */
-    public WeaponAttribute getAttribute() {
-        return Attribute;
-    }
-
-    /**
-     * @param Attribute the Attribute to set
-     */
-    private void setAttribute(WeaponAttribute Attribute) {
-        this.Attribute = Attribute;
-    }
-
-    /**
-     * @return Integer return the WeaponTypeCombatValue
-     */
-
-    /**
-     * @param WeaponTypeCombatValue the WeaponTypeCombatValue to set
-     */
-    private void setWeaponTypeCombatValue(Integer WeaponTypeCombatValue) {
-        this.WeaponTypeCombatValue = WeaponTypeCombatValue;
+    public Integer getCombatValue() {
+        return CombatValue;
     }
     // #endregion
 
-    public Weapon(String Name, String Description, WeaponType Type, WeaponAttribute Attribute,
-            Integer WeaponTypeCombatValue, Integer BaseCombatValue) {
+    public Weapon(String Name, String Description, Integer CombatValue) {
         this.Name = Name;
         this.Description = Description;
-        this.Type = Type;
-        this.Attribute = Attribute;
-        this.WeaponTypeCombatValue = WeaponTypeCombatValue;
-        this.BaseCombatValue = BaseCombatValue;
+        this.CombatValue = CombatValue;
     }
 
-    @Override
-    public Integer getCombatValue() {
-        Integer FinalCombatValue = this.BaseCombatValue + WeaponTypeCombatValue;
-        return FinalCombatValue;
-    }
-
-    @Override
     public void Upgrade(Integer CombatValue) {
-        this.WeaponTypeCombatValue += CombatValue;
+        this.CombatValue += CombatValue;
     }
-
 }

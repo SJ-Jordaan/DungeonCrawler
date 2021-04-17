@@ -3,6 +3,7 @@ package com.hive.rpg;
 import com.hive.rpg.map.Map;
 import com.hive.rpg.map.*;
 import com.hive.rpg.models.*;
+
 /**
  * Hello world!
  *
@@ -18,7 +19,7 @@ public class App
     public static void main( String[] args )
     {
         // Testing stuff for outputting generated map
-        createMap();
+
         
 
         boolean isRunning;
@@ -26,13 +27,15 @@ public class App
         int timePerLoop = 1000000000 / framesPerSecond;
         Screen screen;
         screen = new Screen(UI_WIDTH,UI_HEIGHT);
-        screen.outputMap(MAP_WIDTH, MAP_HEIGHT, map);
+        createMap();
         isRunning = true;
 
         while(isRunning) {
             long startTime = System.nanoTime();
 
             screen.inputHandler.processInput(); //60 fps input processing (actual game can be a manual game loop)
+            map.update(screen.inputHandler);
+            screen.outputMap(MAP_WIDTH, MAP_HEIGHT, map);
 
             long endTime = System.nanoTime();
 
@@ -58,6 +61,7 @@ public class App
         .populate("wall", EntityType.Wall)
         .generateRandomMap(1, 10, 10, 2500)
         .populateMap(5, types)
+        .placePlayer()
         .build();
     }
 }

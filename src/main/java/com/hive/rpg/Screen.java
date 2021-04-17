@@ -1,7 +1,6 @@
 package com.hive.rpg;
 
 import javax.swing.*;
-
 import asciiPanel.AsciiPanel;
 import com.hive.rpg.InputHandler;
 import com.hive.rpg.map.Map;

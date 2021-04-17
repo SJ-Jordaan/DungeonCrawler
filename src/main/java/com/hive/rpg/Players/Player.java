@@ -3,7 +3,8 @@ package com.hive.rpg.Players;
 import java.util.ArrayList;
 
 import com.hive.rpg.CombatHandler;
-import com.hive.rpg.InputHandler;
+import com.hive.rpg.GameEngine;
+import com.hive.rpg.GameScreenController;
 import com.hive.rpg.Weapons.Attack;
 import com.hive.rpg.Weapons.Weapon;
 import com.hive.rpg.map.Map;
@@ -43,8 +44,8 @@ public class Player extends Characters implements ICharacterActions {
         this.selected_attack = newAttack < 0 ? amount+newAttack : newAttack;
     }
 
-    public void combat(InputHandler inputHandler, CombatHandler combatHandler) {
-        switch (inputHandler.last.charAt(0)) {
+    public void combat(CombatHandler combatHandler) {
+        switch (GameEngine.window.GetCurrentScreen().controller.last.charAt(0)) {
             case 'u': switchAttack(-1); break;
             case 'd': switchAttack(1); break;
             case 'l': switchAttack(-3); break;
@@ -54,7 +55,7 @@ public class Player extends Characters implements ICharacterActions {
         }
     }
 
-    public void move(InputHandler inputHandler, Map map, CombatHandler combatHandler) {
+    public void move(GameScreenController inputHandler, Map map, CombatHandler combatHandler) {
         int[] c = this.getCoord().clone();
         switch (inputHandler.last.charAt(0)) {
             case 'u': c[1] -= 1; break;
@@ -72,7 +73,7 @@ public class Player extends Characters implements ICharacterActions {
             if (enemy != null) {
                 System.out.println(enemy.getName());
                 combatHandler.pushEnemy(enemy);
-                map.state = State.Combat;
+                GameEngine.state = State.Combat;
             }
         }
         if (map.isPathableTerrain(c)) {

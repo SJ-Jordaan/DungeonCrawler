@@ -8,9 +8,6 @@ public abstract class BaseScreen extends AsciiPanel {
         super(width, height);
     }
 
-    abstract void init();
     abstract void handleInput();
-    abstract void update();
-    abstract void render();
     abstract KeyListener getController();
 }

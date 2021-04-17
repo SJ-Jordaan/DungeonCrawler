@@ -1,6 +1,7 @@
 package com.hive.rpg.models;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import com.hive.rpg.controllers.*;
@@ -11,6 +12,7 @@ public class Map {
     private int width;
     private int height;
     public Set<Entity> entities;
+    public Set<Enemy> enemies;
 
 
     /**
@@ -40,7 +42,6 @@ public class Map {
     public Set<Entity> getEntities() {
         return entities;
     }
-    public Set<Enemy> enemies;
     public void setEntities(Set<Entity> entities) {
         this.entities = entities;
     }
@@ -80,6 +81,34 @@ public class Map {
 
     public void clearBodies() {
         enemies.removeIf(enemy -> enemy.getHealth() <= 0);
+    }
+
+    public void moveEnemies() {
+        Random rnd = new Random();
+        int moveChance = rnd.nextInt(100);
+
+        if (moveChance > 98) {
+            enemies.stream().forEach(enemy -> {
+                int rndNr = rnd.nextInt(3);
+                
+                int[] coord = enemy.getCoord().clone();
+                
+                if (rndNr == 0) {
+                    coord[0] = enemy.getX() + 1;
+                } else if (rndNr == 1) {
+                    coord[0] = enemy.getX() - 1;
+                } else if (rndNr == 2) {
+                    coord[1] = enemy.getY() + 1;
+                } else if (rndNr == 3) {
+                    coord[1] = enemy.getY() - 1;
+                }
+                if ( coord[0] < width && coord[0] > 0 && coord[1] < height && coord[1] > 0) {
+                    if (getTile(coord).isPathable()) {
+                        enemy.setCoord(coord);
+                    }
+                }
+            });
+        }
     }
 
     public Entity getEntityAt(int[] coord) {

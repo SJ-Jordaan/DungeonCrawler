@@ -38,7 +38,7 @@ public class GameEngine {
             while(isRunning) {
             long startTime = System.nanoTime();
             window.GetCurrentScreen().handleInput();
-            map.clearBodies();
+            updateMap();
             if (state == State.Moving) {
                 player.move(window.GetCurrentScreen().controller, map, combatHandler);
                 window.GetCurrentScreen().outputMap(MAP_WIDTH, MAP_HEIGHT, UI_WIDTH, UI_HEIGHT, map);
@@ -64,16 +64,28 @@ public class GameEngine {
         }
     }
 
+    public void updateMap() {
+        map.clearBodies();
+        map.moveEnemies();
+    }
+
     private static void createMap() {
 
         EntityType[] types = {
                 EntityType.Bull,
-                EntityType.Skeleton
+                EntityType.Skeleton,
+                EntityType.Unicorn,
+                EntityType.Pig,
+                EntityType.Hobgoblin,
+                EntityType.Javathian,
+                EntityType.Dragon,
+                EntityType.Jester,
+                EntityType.Knight
         };
         map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
                 .populate("wall", EntityType.Wall)
                 .generateRandomMap(2, 10, 10, MAP_WIDTH*MAP_HEIGHT*(4-level))
-                .populateMap(10, types)
+                .populateMap(35, types)
                 .placePlayer()
                 .build();
     }

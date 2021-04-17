@@ -5,8 +5,14 @@ import java.awt.Color;
 public enum EntityType {
     Player('@', Color.blue, "Player"),
     Bull('B', Color.red, "Bull"),
-    Skeleton('U', Color.red, "Skeleton"),
+    Skeleton('S', Color.red, "Skeleton"),
+    Hobgoblin('H', Color.yellow, "Hobgoblin"),
+    Javathian('!', Color.magenta, "Javathian"),
+    Dragon('!', Color.magenta, "Dragon"),
+    Knight('K', Color.green, "Knight"),
+    Jester('J', Color.pink, "Jester"),
     Pig('P', Color.green, "Pig"),
+    Unicorn('U', Color.green, "Unicorn"),
     Path('.', Color.white, Color.black, true),
     Wall('#', Color.white, Color.black, false);
 

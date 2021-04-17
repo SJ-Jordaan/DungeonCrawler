@@ -34,6 +34,9 @@ public class Entity {
     public int[] getCoord() {
         return this.coord;
     }
+
+    public void setCoord(int[] coord) { this.coord = coord; }
+
     /**
      * Get entity map symbol
      */

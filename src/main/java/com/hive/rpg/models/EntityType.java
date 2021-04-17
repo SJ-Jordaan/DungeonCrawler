@@ -6,7 +6,7 @@ public enum EntityType {
     Player('@', Color.green),
     Bat('B', Color.red, "Enemy"),
     Farmer('F', Color.blue, "Ally"),
-    Pig('P', Color.white, "Neutral"),
+    Pig('P', Color.green, "Neutral"),
     Sword('^', Color.green),
     Path('.', Color.white, Color.black, true),
     Wall('#', Color.white, Color.black, false);

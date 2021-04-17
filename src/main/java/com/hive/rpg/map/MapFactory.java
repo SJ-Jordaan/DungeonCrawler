@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import com.hive.rpg.InputHandler;
 import com.hive.rpg.Players.Enemy;
 import com.hive.rpg.Players.Player;
 import com.hive.rpg.Weapons.Attack;

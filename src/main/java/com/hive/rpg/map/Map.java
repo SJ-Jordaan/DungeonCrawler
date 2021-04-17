@@ -4,7 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.hive.rpg.CombatHandler;
-import com.hive.rpg.InputHandler;
+import com.hive.rpg.GameEngine;
+import com.hive.rpg.GameScreenController;
+import com.hive.rpg.GameWindow;
 import com.hive.rpg.Players.Characters;
 import com.hive.rpg.Players.Enemy;
 import com.hive.rpg.Players.Player;
@@ -17,9 +19,8 @@ public class Map {
     private MapTile[][] tiles;
     private int width;
     private int height;
-    public Player player;
     public Set<Entity> entities;
-    public State state = State.Moving;
+
 
     /**
      * Auto-generated getters and setters
@@ -43,10 +44,7 @@ public class Map {
         this.height = height;
     }
     public Entity getPlayer() {
-        return player;
-    }
-    public void setPlayer(Player player) {
-        this.player = player;
+        return (Entity)GameEngine.player;
     }
     public Set<Entity> getEntities() {
         return entities;
@@ -65,7 +63,7 @@ public class Map {
         this.tiles = tiles;
         this.width = maxWidth;
         this.height = maxHeight;
-        this.player = player;
+        GameEngine.player = player;
         this.enemies = enemies;
     }
     /**
@@ -87,10 +85,6 @@ public class Map {
         }
         
         return tiles[coord[0]][coord[1]];
-    }
-
-    public void update(InputHandler inputHandler, CombatHandler combatHandler) {
-        player.move(inputHandler, this, combatHandler);
     }
 
     public void clearBodies() {

@@ -27,12 +27,12 @@ public class CombatHandler {
         }
     }
 
-    public boolean processCombat(Player player, InputHandler inputhandler) {
-        if (player.can_attack) {
-            player.combat(inputhandler, this);
+    public boolean processCombat() {
+        if (GameEngine.player.can_attack) {
+            GameEngine.player.combat(this);
         } else {
-            player.ReceiveAttack(getCurrentEnemy().getWeapon().getAttacks().get(0).attack);
-            player.can_attack = true;
+            GameEngine.player.ReceiveAttack(getCurrentEnemy().getWeapon().getAttacks().get(0).attack);
+            GameEngine.player.can_attack = true;
         }
         if (enemyStack.empty()) {
             return false;

@@ -21,6 +21,8 @@ public class InputHandler implements KeyListener {
         keyMap.put(KeyEvent.VK_D, "right");
         keyMap.put(KeyEvent.VK_W, "up");
         keyMap.put(KeyEvent.VK_S, "down");
+        keyMap.put(KeyEvent.VK_SPACE, "attack");
+        keyMap.put(KeyEvent.VK_ENTER, "attack");
     }
 
     @Override

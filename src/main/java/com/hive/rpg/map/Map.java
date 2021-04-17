@@ -3,12 +3,14 @@ package com.hive.rpg.map;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.hive.rpg.CombatHandler;
 import com.hive.rpg.InputHandler;
-import com.hive.rpg.Player;
+import com.hive.rpg.Players.Characters;
+import com.hive.rpg.Players.Enemy;
+import com.hive.rpg.Players.Player;
 import com.hive.rpg.models.Entity;
 import com.hive.rpg.models.MapTile;
-
-import javax.security.auth.login.CredentialException;
+import com.hive.rpg.models.State;
 
 public class Map {
 
@@ -17,6 +19,7 @@ public class Map {
     private int height;
     public Player player;
     public Set<Entity> entities;
+    public State state = State.Moving;
 
     /**
      * Auto-generated getters and setters
@@ -48,6 +51,7 @@ public class Map {
     public Set<Entity> getEntities() {
         return entities;
     }
+    public Set<Enemy> enemies;
     public void setEntities(Set<Entity> entities) {
         this.entities = entities;
     }
@@ -55,13 +59,14 @@ public class Map {
     /** 
     * Constructors 
     */
-    public Map(MapTile[][] tiles, Set<Entity> entities, Player player, int maxWidth, int maxHeight) {
+    public Map(MapTile[][] tiles, Set<Entity> entities, Set<Enemy> enemies, Player player, int maxWidth, int maxHeight) {
         this.entities = new HashSet<>();
         this.entities.addAll(entities);
         this.tiles = tiles;
         this.width = maxWidth;
         this.height = maxHeight;
         this.player = player;
+        this.enemies = enemies;
     }
     /**
     * Additional member functions
@@ -84,22 +89,28 @@ public class Map {
         return tiles[coord[0]][coord[1]];
     }
 
-    public void update(InputHandler inputHandler) {
-        player.move(inputHandler, this);
+    public void update(InputHandler inputHandler, CombatHandler combatHandler) {
+        player.move(inputHandler, this, combatHandler);
     }
 
-    public <T extends Entity> T getEntityAt(Class<T> type, int[] coord) {
-        if (type == MapTile.class) {
-            return type.cast(tiles[coord[0]][coord[1]]);
-        } else if (type == Entity.class) {
-            Entity e = entities.stream()
-            .filter(entity -> entity.getX() == coord[0] && entity.getY() == coord[1])
-            .findFirst()
-            .orElse(null);
-            return type.cast(e);
-        }
+    public void clearBodies() {
+        enemies.removeIf(enemy -> enemy.getHealth() <= 0);
+    }
 
-        return null;
+    public Entity getEntityAt(int[] coord) {
+        Entity e = entities.stream()
+                    .filter(entity -> entity.getX() == coord[0] && entity.getY() == coord[1])
+                    .findFirst()
+                    .orElse(null);
+        return e;
+    }
+
+    public Enemy getEnemyAt(int[] coord) {
+        Enemy e = enemies.stream()
+                    .filter(entity -> entity.getX() == coord[0] && entity.getY() == coord[1])
+                    .findFirst()
+                    .orElse(null);
+        return e;
     }
 
     public boolean isPathableTerrain(int [] coord) {

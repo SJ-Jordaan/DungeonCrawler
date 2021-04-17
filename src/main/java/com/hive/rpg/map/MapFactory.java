@@ -1,11 +1,15 @@
 package com.hive.rpg.map;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 import com.hive.rpg.InputHandler;
-import com.hive.rpg.Player;
+import com.hive.rpg.Players.Enemy;
+import com.hive.rpg.Players.Player;
+import com.hive.rpg.Weapons.Attack;
+import com.hive.rpg.Weapons.Weapon;
 import com.hive.rpg.models.*;
 
 public class MapFactory {
@@ -15,12 +19,14 @@ public class MapFactory {
     private int height;
     public Player player;
     public Set<Entity> entities;
+    public Set<Enemy> enemies;
 
     public MapFactory(int width, int height) {
         this.width = width;
         this.height = height;
         this.tiles = new MapTile[width][height];
         this.entities = new HashSet<Entity>();
+        this.enemies = new HashSet<Enemy>();
     }
 
     public MapTile createTile(String name, EntityType type, int [] coord) {
@@ -42,7 +48,7 @@ public class MapFactory {
             for (int j = 0; j < this.height; j++) {
                 if (this.tiles[i][j].isPathable()) {
                     int [] coord = {i,j};
-                    player = new Player(coord);
+                    player = new Player(100, new Weapon(), coord);
                     //this.tiles[i][j] = createTile("player", EntityType.Player, coord);
                     return this;
                 }
@@ -52,7 +58,7 @@ public class MapFactory {
     }
 
     public Map build() {
-        return new Map(this.tiles, this.entities, this.player, this.width, this.height);
+        return new Map(this.tiles, this.entities, this.enemies, this.player, this.width, this.height);
     }
 
     public MapFactory generateRandomMap(int seed, int startX, int startY, int length) {
@@ -108,7 +114,12 @@ public class MapFactory {
 
             entityType = randomNumber.nextInt(types.length);
             int[] coord = {x,y};
-            entities.add(createLivingEntity("Entity", types[entityType], coord));
+            ArrayList<Attack> attacks = new ArrayList<Attack>();
+            attacks.add(new Attack("SpaghettiPowaaa", 4));
+            Weapon weapon = new Weapon("Hands", "You finna throw down??!!?!?!?!", attacks);
+            Enemy enemy = new Enemy("Jason Bourne", 100, weapon, EntityType.Bat, coord);
+            enemies.add(enemy);
+            //entities.add(createLivingEntity("Entity", types[entityType], coord));
             //tiles[x][y] = createTile("Entity", types[entityType], coord);
         }
         return this;

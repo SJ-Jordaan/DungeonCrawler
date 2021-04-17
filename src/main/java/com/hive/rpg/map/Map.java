@@ -3,15 +3,19 @@ package com.hive.rpg.map;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.hive.rpg.InputHandler;
+import com.hive.rpg.Player;
 import com.hive.rpg.models.Entity;
 import com.hive.rpg.models.MapTile;
+
+import javax.security.auth.login.CredentialException;
 
 public class Map {
 
     private MapTile[][] tiles;
     private int width;
     private int height;
-    public Entity player;
+    public Player player;
     public Set<Entity> entities;
 
     /**
@@ -38,7 +42,7 @@ public class Map {
     public Entity getPlayer() {
         return player;
     }
-    public void setPlayer(Entity player) {
+    public void setPlayer(Player player) {
         this.player = player;
     }
     public Set<Entity> getEntities() {
@@ -51,12 +55,13 @@ public class Map {
     /** 
     * Constructors 
     */
-    public Map(MapTile[][] tiles, Set<Entity> entities, int maxWidth, int maxHeight) {
+    public Map(MapTile[][] tiles, Set<Entity> entities, Player player, int maxWidth, int maxHeight) {
         this.entities = new HashSet<>();
         this.entities.addAll(entities);
         this.tiles = tiles;
         this.width = maxWidth;
         this.height = maxHeight;
+        this.player = player;
     }
     /**
     * Additional member functions
@@ -79,6 +84,10 @@ public class Map {
         return tiles[coord[0]][coord[1]];
     }
 
+    public void update(InputHandler inputHandler) {
+        player.move(inputHandler, this);
+    }
+
     public <T extends Entity> T getEntityAt(Class<T> type, int[] coord) {
         if (type == MapTile.class) {
             return type.cast(tiles[coord[0]][coord[1]]);
@@ -94,6 +103,11 @@ public class Map {
     }
 
     public boolean isPathableTerrain(int [] coord) {
-        return (tiles[coord[0]][coord[1]].isPathable());
+        if (coord[0] < this.width && coord[0] >= 0) {
+            if (coord[1] < this.height && coord[1] >= 0) {
+                return (tiles[coord[0]][coord[1]].isPathable());
+            }
+        }
+        return false;
     }
 }

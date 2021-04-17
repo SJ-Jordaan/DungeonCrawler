@@ -1,18 +1,32 @@
 package com.hive.rpg;
 
+import com.hive.rpg.map.Map;
+import com.hive.rpg.map.*;
+import com.hive.rpg.models.*;
 /**
  * Hello world!
  *
  */
 public class App 
 {
+    private static Map map;
+    private static int MAP_WIDTH = 54;
+    private static int MAP_HEIGHT = 29;
+    private static int UI_WIDTH = 500;
+    private static int UI_HEIGHT = 500;
+    
     public static void main( String[] args )
     {
+        // Testing stuff for outputting generated map
+        createMap();
+        
+
         boolean isRunning;
         int framesPerSecond = 60;
         int timePerLoop = 1000000000 / framesPerSecond;
         Screen screen;
-        screen = new Screen(500,500);
+        screen = new Screen(UI_WIDTH,UI_HEIGHT);
+        screen.outputMap(MAP_WIDTH, MAP_HEIGHT, map);
         isRunning = true;
 
         while(isRunning) {
@@ -32,5 +46,18 @@ public class App
                 }
             }
         }
+    }
+    
+    private static void createMap() {
+
+        EntityType[] types = {
+            EntityType.Bat,
+            EntityType.Farmer
+        };
+        map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
+        .populate("wall", EntityType.Wall)
+        .generateRandomMap(1, 10, 10, 2500)
+        .populateMap(5, types)
+        .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.hive.rpg;
 
+import com.hive.rpg.Players.Player;
 public class App {
     public static void main( String[] args ) {
         GameWindow game = new GameWindow(500, 500);
@@ -12,6 +13,7 @@ import com.hive.rpg.models.*;
  * Hello world!
  *
  */
+
 public class App 
 {
     private static Map map;
@@ -31,15 +33,26 @@ public class App
         int timePerLoop = 1000000000 / framesPerSecond;
         Screen screen;
         screen = new Screen(UI_WIDTH,UI_HEIGHT);
+        CombatHandler combatHandler = new CombatHandler();
         createMap();
         isRunning = true;
-
         while(isRunning) {
             long startTime = System.nanoTime();
-
-            screen.inputHandler.processInput(); //60 fps input processing (actual game can be a manual game loop)
-            map.update(screen.inputHandler);
-            screen.outputMap(MAP_WIDTH, MAP_HEIGHT, map);
+            if (map.state == State.Moving) {
+                screen.inputHandler.processInput(); //60 fps input processing (actual game can be a manual game loop)
+                map.update(screen.inputHandler, combatHandler);
+                screen.outputMap(MAP_WIDTH, MAP_HEIGHT, map);
+            } else if (map.state == State.Combat) {
+                screen.inputHandler.processInput();
+                map.clearBodies();
+                if (combatHandler.processCombat(map.player, screen.inputHandler)) {
+                    screen.outputCombat(combatHandler, map.player);
+                } else {
+                    map.state = State.Moving;
+                    screen.clearScreen();
+                }
+                //screen.outputCombatScreen();
+            }
 
             long endTime = System.nanoTime();
 

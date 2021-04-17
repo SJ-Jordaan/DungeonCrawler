@@ -1,9 +1,11 @@
 package com.hive.rpg.Weapons;
 
+import java.util.ArrayList;
+
 public class Weapon {
     private String Name;
     private String Description;
-    private Integer CombatValue;
+    private ArrayList<Attack> Attacks;
 
     // #region Getters & Setters
     /**
@@ -35,20 +37,33 @@ public class Weapon {
     }
 
     /**
-     * @return Integer return the BaseCombatValue
+     * @return ArrayList<Attack> return the Attacks
      */
-    public Integer getCombatValue() {
-        return CombatValue;
+    public ArrayList<Attack> getAttacks() {
+        return Attacks;
     }
-    // #endregion
 
-    public Weapon(String Name, String Description, Integer CombatValue) {
+    /**
+     * @param Attacks the Attacks to set
+     */
+    public void setAttacks(ArrayList<Attack> Attacks) {
+        this.Attacks = Attacks;
+    }
+
+    public Weapon(String Name, String Description, ArrayList<Attack> attacks) {
         this.Name = Name;
         this.Description = Description;
-        this.CombatValue = CombatValue;
+        this.Attacks = attacks;
     }
 
-    public void Upgrade(Integer CombatValue) {
-        this.CombatValue += CombatValue;
+    public Weapon() {
+        this.Name = "Spaghetti-Code";
+        this.Description = "Weak but effective";
+        this.Attacks = new ArrayList<Attack>();
+        this.Attacks.add(new Attack("This game", 1));
+        this.Attacks.add(new Attack("Sucks...", 5));
+        this.Attacks.add(new Attack("really bad", 10));
+        this.Attacks.add(new Attack("like really really", 1));
+        this.Attacks.add(new Attack("baaaaaaad", 1));
     }
 }

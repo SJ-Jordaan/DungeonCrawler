@@ -57,4 +57,8 @@ public class Entity {
         this.glyph = type.getGlyph();
         this.colour = type.getColour();
     }
+
+    public String ToString() {
+        return this.name;
+    }
 }

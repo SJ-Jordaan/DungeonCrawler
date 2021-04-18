@@ -1,5 +1,7 @@
-package com.hive.rpg;
+package com.hive.rpg.screens;
 
+import com.hive.rpg.controllers.GameScreenController;
+import com.hive.rpg.Hero;
 import com.hive.rpg.map.Map;
 import com.hive.rpg.map.MapFactory;
 import com.hive.rpg.models.EntityType;
@@ -14,7 +16,7 @@ public class GameScreen extends BaseScreen {
     GameScreenController controller = new GameScreenController(p);
     Map map;
 
-    GameScreen(int width, int height){
+    public GameScreen(int width, int height){
         super(width, height);
         this.map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
                 .populate("wall", EntityType.Wall)

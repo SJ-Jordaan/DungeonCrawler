@@ -1,16 +1,16 @@
-package com.hive.rpg;
+package com.hive.rpg.controllers;
 
-import java.awt.event.InputEvent;
+import com.hive.rpg.GameWindow;
+import com.hive.rpg.Hero;
+import com.hive.rpg.Movable;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.LinkedList;
-import java.util.Queue;
 
-public class GameScreenController implements KeyListener {
+public class GameScreenController extends BaseScreenController implements KeyListener {
     Hero hero;
-    private final Queue<InputEvent> inputQueue;
-    GameScreenController(Hero p){
-        inputQueue = new LinkedList<InputEvent>();
+
+    public GameScreenController(Hero p){
         this.hero = p;
     }
 
@@ -20,27 +20,13 @@ public class GameScreenController implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        this.inputQueue.add(e);
+        this.inputEventQueue.add(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
     }
 
-    /**
-     * Polls the input queue for a key event, process the event
-     * and clears the input queue to avoid processing of the
-     * same key event in multiple loop iterations
-     */
-    public void handleUserInput(){
-
-        InputEvent event = this.inputQueue.poll();
-        if (event instanceof KeyEvent) {
-            this.processKeyPress((KeyEvent)event);
-            System.out.println("Handling user input called");
-            this.inputQueue.clear();
-        }
-    }
 
     public void processKeyPress(KeyEvent event){
         switch (event.getKeyCode()){
@@ -59,12 +45,9 @@ public class GameScreenController implements KeyListener {
                 this.hero.move(Movable.Direction.DOWN);
                 break;
             case KeyEvent.VK_ESCAPE:
-                System.out.println("Quiting the game");
                 GameWindow.currentScreen = -1;
+            case KeyEvent.VK_BACK_SPACE:
+                GameWindow.currentScreen = 0;
         }
-    }
-
-    Hero getPlayer(){
-        return this.hero;
     }
 }

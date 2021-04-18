@@ -50,9 +50,9 @@ public class Entity {
         return this.colour;
     }
 
-    public Entity(String name, EntityType type, int[] coord) {
-        this.name = name;
+    public Entity(EntityType type, int[] coord) {
         this.coord = coord;
+        this.name = type.getFilename();
         this.type = type.getType();
         this.glyph = type.getGlyph();
         this.colour = type.getColour();

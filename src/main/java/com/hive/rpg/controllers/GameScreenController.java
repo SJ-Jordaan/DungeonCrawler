@@ -1,4 +1,4 @@
-package com.hive.rpg;
+package com.hive.rpg.controllers;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -13,7 +13,7 @@ public class GameScreenController implements KeyListener {
     private final Map<Integer, String> keyMap;
     public String last = "0";
 
-    GameScreenController(){
+    public GameScreenController(){
         inputQueue = new LinkedList<InputEvent>();
         keyMap = new HashMap<Integer, String>();
         keyMap.put(KeyEvent.VK_A, "left"); //map functions from player controller to keys

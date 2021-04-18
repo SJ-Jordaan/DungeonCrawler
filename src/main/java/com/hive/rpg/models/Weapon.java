@@ -1,4 +1,4 @@
-package com.hive.rpg.Weapons;
+package com.hive.rpg.models;
 
 import java.util.ArrayList;
 
@@ -57,6 +57,7 @@ public class Weapon {
     }
 
     public Weapon() {
+        // TODO: Replace with better generic weapon instantiation
         this.Name = "Spaghetti-Code";
         this.Description = "Weak but effective";
         this.Attacks = new ArrayList<Attack>();

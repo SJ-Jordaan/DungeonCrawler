@@ -1,10 +1,4 @@
-package com.hive.rpg.Players;
-
-import java.util.ArrayList;
-
-import com.hive.rpg.Weapons.Weapon;
-import com.hive.rpg.models.Entity;
-import com.hive.rpg.models.EntityType;
+package com.hive.rpg.models;
 
 public class Characters extends Entity {
     private Integer Health;
@@ -59,17 +53,15 @@ public class Characters extends Entity {
 
     // #endregion
 
-    public Characters(String Name, Integer Health, Weapon Weapon, EntityType type, int[] coords) {
-        super(Name, type, coords);
-        this.name = Name;
+    public Characters(Integer Health, Weapon Weapon, EntityType type, int[] coords) {
+        super(type, coords);
         this.Health = Health;
         this.Weapon = Weapon;
 
     }
 
-    public Characters(String Name, Integer Health, EntityType type, int[] coords) {
-        super(Name, type, coords);
-        this.name = Name;
+    public Characters(Integer Health, EntityType type, int[] coords) {
+        super(type, coords);
         this.Health = Health;
     }
 

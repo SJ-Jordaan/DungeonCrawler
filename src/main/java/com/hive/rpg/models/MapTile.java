@@ -24,7 +24,7 @@ public class MapTile extends Entity {
     }
 
     public MapTile(String name, int[] coord, EntityType type) {
-        super(name, type, coord);
+        super(type, coord);
         this.backgroundColour = type.getBackgroundColour();
         this.pathable = type.isPathable();
     }

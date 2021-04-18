@@ -3,11 +3,16 @@ package com.hive.rpg.models;
 import java.awt.Color;
 
 public enum EntityType {
-    Player('@', Color.green),
-    Bat('B', Color.red, "Enemy"),
-    Farmer('F', Color.blue, "Ally"),
-    Pig('P', Color.green, "Neutral"),
-    Sword('^', Color.green),
+    Player('@', Color.blue, "Player"),
+    Bull('B', Color.red, "Bull"),
+    Skeleton('S', Color.red, "Skeleton"),
+    Hobgoblin('H', Color.yellow, "Hobgoblin"),
+    Javathian('!', Color.magenta, "Javathian"),
+    Dragon('!', Color.magenta, "Dragon"),
+    Knight('K', Color.green, "Knight"),
+    Jester('J', Color.pink, "Jester"),
+    Pig('P', Color.green, "Pig"),
+    Unicorn('U', Color.green, "Unicorn"),
     Path('.', Color.white, Color.black, true),
     Wall('#', Color.white, Color.black, false);
 
@@ -16,18 +21,13 @@ public enum EntityType {
     private Color colour;
     private String type;
     private Color backgroundColour;
+    private String filename;
 
     // Create player entity
-    EntityType(final char glyph, final Color colour) {
+    EntityType(final char glyph, final Color colour, String filename) {
         this.setGlyph(glyph);
         this.setColour(colour);
-    }
-
-    // Create interactable entities
-    EntityType(final char glyph, final Color colour, final String type) {
-        this.setGlyph(glyph);
-        this.setColour(colour);
-        this.setType(type);
+        this.setFilename(filename);
     }
     
     // Create maptile entities
@@ -85,6 +85,14 @@ public enum EntityType {
 
     public void setPathable(boolean pathable) {
         this.pathable = pathable;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
 

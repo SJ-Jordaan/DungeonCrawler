@@ -1,14 +1,10 @@
-package com.hive.rpg.map;
+package com.hive.rpg.controllers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import com.hive.rpg.Players.Enemy;
-import com.hive.rpg.Players.Player;
-import com.hive.rpg.Weapons.Attack;
-import com.hive.rpg.Weapons.Weapon;
 import com.hive.rpg.models.*;
 
 public class MapFactory {
@@ -84,8 +80,8 @@ public class MapFactory {
         return this;
     }
 
-    public Entity createLivingEntity(String name, EntityType type, int[] coord) {
-        return new Entity(name, type, coord);
+    public Entity createLivingEntity(EntityType type, int[] coord) {
+        return new Entity(type, coord);
     }
 
     public MapFactory carveOutRoom(int bottomX, int bottomY, int width, int height) {
@@ -113,13 +109,12 @@ public class MapFactory {
 
             entityType = randomNumber.nextInt(types.length);
             int[] coord = {x,y};
+            
             ArrayList<Attack> attacks = new ArrayList<Attack>();
-            attacks.add(new Attack("SpaghettiPowaaa", 4));
-            Weapon weapon = new Weapon("Hands", "You finna throw down??!!?!?!?!", attacks);
-            Enemy enemy = new Enemy("Jason Bourne", 100, weapon, EntityType.Bat, coord);
+            attacks.add(new Attack("Attack", 2));
+            Weapon weapon = new Weapon("Sarcasm", "I like your moves", attacks);
+            Enemy enemy = new Enemy(100, weapon, types[entityType], coord);
             enemies.add(enemy);
-            //entities.add(createLivingEntity("Entity", types[entityType], coord));
-            //tiles[x][y] = createTile("Entity", types[entityType], coord);
         }
         return this;
     }

@@ -1,17 +1,17 @@
-package com.hive.rpg;
+package com.hive.rpg.views;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameWindow extends JFrame {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -2770730696299861402L;
     //private final List<BaseScreen> screens = new ArrayList<>();
     //public static int currentScreen = 0;
     private final GameScreen screen;
 
-    GameWindow(int width, int height){
+    public GameWindow(int width, int height){
         this.setSize(width, height);
         this.setTitle("Dungeon Crawler");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);

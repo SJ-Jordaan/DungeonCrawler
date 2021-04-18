@@ -1,6 +1,4 @@
-package com.hive.rpg.Players;
-
-import com.hive.rpg.Weapons.Weapon;
+package com.hive.rpg.models;
 
 public interface ICharacterActions {
     public void ReceiveAttack(int damage);

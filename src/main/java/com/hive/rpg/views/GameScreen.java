@@ -3,6 +3,7 @@ package com.hive.rpg.views;
 import com.hive.rpg.controllers.*;
 import com.hive.rpg.models.*;
 
+import java.awt.*;
 import java.awt.event.KeyListener;
 
 public class GameScreen extends BaseScreen {
@@ -15,6 +16,7 @@ public class GameScreen extends BaseScreen {
     }
 
     public void outputCombat(CombatHandler combatHandler){
+        resetScreen();
         Player player = GameEngine.player;
         CombatView view = new CombatView(
             player.getName(),
@@ -36,16 +38,12 @@ public class GameScreen extends BaseScreen {
     }
 
     public void outputMap(int MAP_WIDTH, int MAP_HEIGHT, int UI_WIDTH, int UI_HEIGHT, Map map) {
+        resetScreen();
         for (int i = 0; i < MAP_WIDTH; i++) {
             for (int y = 0; y < MAP_HEIGHT; y++) {
                 int[] coord = {i, y};
                 MapTile tile = map.getTile(coord);
                 this.write(tile.getGlyph(), i, y, tile.getColour(), tile.getBackgroundColor());
-            }
-        }
-        for (int i = MAP_WIDTH; i < UI_WIDTH; i++) {
-            for (int j = 0; j < MAP_HEIGHT; j++) {
-                this.write(" ", i, j);
             }
         }
         for (Entity e : map.entities) {
@@ -55,6 +53,20 @@ public class GameScreen extends BaseScreen {
             writeEntity(e);
         }
         writeEntity(GameEngine.player);
+        this.repaint();
+    }
+
+    public void resetScreen() {
+        for (int i = 0; i < this.getWidth()/this.getCharWidth()+1; i++) {
+            for (int j = 0; j < this.getHeight()/this.getCharHeight()+1; j++) {
+                this.write(" ", i, j);
+            }
+        }
+    }
+
+    public void outputText(String string) {
+        resetScreen();
+        this.write(string, this.getWidth()/this.getCharWidth()/2 - string.length()/2, this.getHeight()/this.getCharHeight()/2, Color.WHITE);
         this.repaint();
     }
 

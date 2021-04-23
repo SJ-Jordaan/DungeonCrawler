@@ -26,6 +26,9 @@ public class CombatHandler {
             GameEngine.player.combat(this);
         } else {
             GameEngine.player.ReceiveAttack(getCurrentEnemy().getWeapon().getAttacks().get(0).attack);
+            if (GameEngine.player.getHealth() <= 0) {
+                GameEngine.state = State.PlayerDied;
+            }
             GameEngine.player.can_attack = true;
         }
         if (enemyStack.empty()) {

@@ -34,22 +34,64 @@ public class GameEngine {
         //window.setSize(UI_WIDTH, UI_HEIGHT);
         //window.setResizable(false);
         createMap();
+        float timer = 0;
         isRunning = true;
             while(isRunning) {
             long startTime = System.nanoTime();
             window.GetCurrentScreen().handleInput();
             updateMap();
-            if (state == State.Moving) {
-                player.move(window.GetCurrentScreen().controller, map, combatHandler);
-                window.GetCurrentScreen().outputMap(MAP_WIDTH, MAP_HEIGHT, UI_WIDTH, UI_HEIGHT, map);
-            } else if (state == State.Combat) {
-                if (combatHandler.processCombat()) {
-                    window.GetCurrentScreen().outputCombat(combatHandler);
-                } else {
-                    state = State.Moving;
+            switch (state) {
+                case Moving: {
+                    player.move(window.GetCurrentScreen().controller, map, combatHandler);
+                    window.GetCurrentScreen().outputMap(MAP_WIDTH, MAP_HEIGHT, UI_WIDTH, UI_HEIGHT, map);
+                    break;
+                }
+                case Combat: {
+                    if (combatHandler.processCombat()) {
+                        window.GetCurrentScreen().outputCombat(combatHandler);
+                    } else {
+                        state = State.BattleWon;
+                    }
+                    break;
+                }
+                case NextLevel: {
+                    if (timer == 0) window.GetCurrentScreen().outputText("Next Level...");
+                    timer += 1;
+                    if (timer > 60 * 2) {
+                        timer = 0;
+                        //generate new map
+                        state = State.Moving;
+                    }
+                    break;
+                }
+                case MainMenu: {
+
+                    break;
+                }
+                case PlayerDied: {
+                    if (timer == 0) window.GetCurrentScreen().outputText("Player died...Game Over");
+                    timer += 1;
+                    if (timer > 60 * 2) {
+                        timer = 0;
+                        //generate new map
+                        state = State.MainMenu;
+                    }
+                    break;
+                }
+                case BattleWon: {
+                    if (timer == 0) window.GetCurrentScreen().outputText("Battle Won...");
+                    timer += 1;
+                    if (timer > 60 * 2) {
+                        timer = 0;
+                        //generate new map
+                        state = State.Moving;
+                    }
+                    break;
+                }
+                default: {
+                    break;
                 }
             }
-
             long endTime = System.nanoTime();
 
             long sleepTime = timePerLoop - (endTime - startTime);

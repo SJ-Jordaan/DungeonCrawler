@@ -3,17 +3,10 @@ package com.hive.rpg.models;
 import java.awt.Color;
 
 public enum EntityType {
-    Player('@', Color.blue, "Player"),
-    Bull('B', Color.red, "Bull"),
-    Skeleton('S', Color.red, "Skeleton"),
-    Hobgoblin('H', Color.yellow, "Hobgoblin"),
-    Javathian('!', Color.magenta, "Javathian"),
-    Dragon('!', Color.magenta, "Dragon"),
-    Knight('K', Color.green, "Knight"),
-    Jester('J', Color.pink, "Jester"),
-    Pig('P', Color.green, "Pig"),
-    Unicorn('U', Color.green, "Unicorn"),
-    Path('.', Color.white, Color.black, true),
+    Player('@', Color.blue, "Player"), SQL_JOINS('=', Color.red, "JOINS"), Skeleton('S', Color.red, "Skeleton"),
+    Hobgoblin('H', Color.yellow, "Hobgoblin"), Javathian('!', Color.magenta, "Javathian"),
+    Dragon('!', Color.magenta, "Dragon"), Knight('K', Color.green, "Knight"), Jester('J', Color.pink, "Jester"),
+    Pig('P', Color.green, "Pig"), Unicorn('U', Color.green, "Unicorn"), Path('.', Color.white, Color.black, true),
     Wall('#', Color.white, Color.black, false);
 
     private boolean pathable;
@@ -29,7 +22,7 @@ public enum EntityType {
         this.setColour(colour);
         this.setFilename(filename);
     }
-    
+
     // Create maptile entities
     EntityType(final char glyph, final Color colour, final Color backgroundColour, final boolean pathable) {
         this.setGlyph(glyph);
@@ -42,46 +35,37 @@ public enum EntityType {
         return backgroundColour;
     }
 
-
     public void setBackgroundColour(Color backgroundColour) {
         this.backgroundColour = backgroundColour;
     }
-
 
     public String getType() {
         return type;
     }
 
-
     public void setType(String type) {
         this.type = type;
     }
-
 
     public Color getColour() {
         return colour;
     }
 
-
     public void setColour(Color colour) {
         this.colour = colour;
     }
-
 
     public char getGlyph() {
         return glyph;
     }
 
-
     public void setGlyph(char glyph) {
         this.glyph = glyph;
     }
 
-
     public boolean isPathable() {
         return pathable;
     }
-
 
     public void setPathable(boolean pathable) {
         this.pathable = pathable;
@@ -94,6 +78,5 @@ public enum EntityType {
     public void setFilename(String filename) {
         this.filename = filename;
     }
-
 
 }

@@ -8,13 +8,11 @@ public class Enemy extends Characters implements ICharacterActions {
 
     @Override
     public boolean EquipWeapon(Weapon Weapon) {
-        // TODO: Add pick up weapon logic here
         return false;
     }
 
     @Override
     public boolean DropWeapon(Weapon Weapon) {
-        // TODO: Add drop weapon logic here
         return false;
     }
 }

@@ -22,12 +22,14 @@ public class Entity {
     public int getX() {
         return this.coord[0];
     }
+
     /**
      * Get y coordinate
      */
     public int getY() {
         return this.coord[1];
     }
+
     /**
      * Get coordinates
      */
@@ -35,7 +37,9 @@ public class Entity {
         return this.coord;
     }
 
-    public void setCoord(int[] coord) { this.coord = coord; }
+    public void setCoord(int[] coord) {
+        this.coord = coord;
+    }
 
     /**
      * Get entity map symbol
@@ -43,6 +47,7 @@ public class Entity {
     public char getGlyph() {
         return this.glyph;
     }
+
     /**
      * Get entities colour
      */
@@ -53,6 +58,14 @@ public class Entity {
     public Entity(EntityType type, int[] coord) {
         this.coord = coord;
         this.name = type.getFilename();
+        this.type = type.getType();
+        this.glyph = type.getGlyph();
+        this.colour = type.getColour();
+    }
+
+    public Entity(String name, EntityType type, int[] coord) {
+        this.coord = coord;
+        this.name = name;
         this.type = type.getType();
         this.glyph = type.getGlyph();
         this.colour = type.getColour();

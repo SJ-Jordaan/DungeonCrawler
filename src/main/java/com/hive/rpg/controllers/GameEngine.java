@@ -6,111 +6,137 @@ import com.hive.rpg.models.*;
 import java.awt.*;
 
 public class GameEngine {
+    public static String username;
     public static Map map;
     public static Player player;
     public static GameWindow window;
+    public static CombatHandler combatHandler;
+    public static State state;
     private static int UI_WIDTH = 1200;
     private static int UI_HEIGHT = 800;
     private static int MAP_WIDTH;
     private static int MAP_HEIGHT;
     private static int level = 1;
+    public static int timer = 0;
+    public static int creditSpeed = 0;
+    private static int framesPerSecond = 60;
+    private static int timePerLoop = 1000000000 / framesPerSecond;
+    private static boolean isRunning;
 
-    public static State state = State.Moving;
+    public GameEngine(String username) {
+        GameEngine.username = username;
+    }
 
-    public GameEngine() {
+    public void setup() {
+        state = State.WonGame;
+        window = new GameWindow(UI_WIDTH, UI_HEIGHT);
+        UI_HEIGHT -= window.getInsets().top;
+        UI_WIDTH -= window.getInsets().left;
+        combatHandler = new CombatHandler();
+        MAP_WIDTH = (int) Math.floor((double) UI_WIDTH / window.GetCurrentScreen().getCharWidth());
+        MAP_HEIGHT = (int) Math.floor((double) UI_HEIGHT / window.GetCurrentScreen().getCharHeight());
+        isRunning = true;
 
     }
 
-    public void run(){
-        boolean isRunning;
-        int framesPerSecond = 60;
-        int timePerLoop = 1000000000 / framesPerSecond;
-        window = new GameWindow(UI_WIDTH,UI_HEIGHT);
-        UI_HEIGHT-=window.getInsets().top;
-        UI_WIDTH-=window.getInsets().left;
-        CombatHandler combatHandler = new CombatHandler();
-        MAP_WIDTH = (int)Math.floor((double)UI_WIDTH/window.GetCurrentScreen().getCharWidth());
-        MAP_HEIGHT = (int)Math.floor((double)UI_HEIGHT/window.GetCurrentScreen().getCharHeight());
-        state = State.WonGame;
-        float timer = 0;
-        isRunning = true;
-            while(isRunning) {
+    public void run() {
+        setup();
+
+        while (isRunning) {
             long startTime = System.nanoTime();
             window.GetCurrentScreen().handleInput();
             switch (state) {
-                case Moving: {
-                    updateMap();
-                    player.move(window.GetCurrentScreen().controller, map, combatHandler);
-                    window.GetCurrentScreen().outputMap(MAP_WIDTH, MAP_HEIGHT, UI_WIDTH, UI_HEIGHT, map);
-                    if (player.getX() > MAP_WIDTH-15 && player.getY() > MAP_HEIGHT-10) {
-                        state = State.NextLevel;
-                    }
-                    break;
+            case MainMenu: {
+                window.GetCurrentScreen().outputAsciiArt("MainMenu", 115, 54);
+                if (window.GetCurrentScreen().getController().last.equals("attack")) {
+                    int[] coords = { 0, 0 };
+                    GameEngine.player = new Player(GameEngine.username, 40, new Weapon(WeaponType.DBFundamentals),
+                            coords);
+                    createMap();
+                    state = State.Moving;
                 }
-                case Combat: {
-                    if (combatHandler.processCombat()) {
-                        window.GetCurrentScreen().outputCombat(combatHandler);
-                    } else {
-                        state = State.BattleWon;
-                    }
-                    break;
+                break;
+            }
+            case Moving: {
+                updateMap();
+                GameEngine.player.move(window.GetCurrentScreen().controller, map, combatHandler);
+                window.GetCurrentScreen().outputMap(MAP_WIDTH, MAP_HEIGHT, UI_WIDTH, UI_HEIGHT, map);
+                if (GameEngine.player.getX() >= MAP_WIDTH - 15 && GameEngine.player.getY() >= MAP_HEIGHT - 10) {
+                    state = State.NextLevel;
                 }
-                case NextLevel: {
-                    if (level == 4) {state = State.WonGame; continue;}
-                    if (timer == 0) window.GetCurrentScreen().outputText("Next Level...");
-                    timer += 1;
-                    if (timer > 60 * 2) {
-                        timer = 0;
-                        level+=1;
-                        createMap();
-                        state = State.Moving;
-                    }
-                    break;
+                break;
+            }
+            case Combat: {
+                if (combatHandler.processCombat()) {
+                    window.GetCurrentScreen().outputCombat(combatHandler);
+                } else {
+                    state = State.BattleWon;
                 }
-                case WonGame: {
-                    if (timer == 0) window.GetCurrentScreen().displayAsciiArt("achievement");
-                    timer += 1;
-                    if (timer > 60 * 4) {
-                        timer = 0;
-                        level+=1;
-                        createMap();
-                        state = State.MainMenu;
-                    }
-                    break;
+                break;
+            }
+            case BattleWon: {
+                if (timer == 0)
+                    window.GetCurrentScreen().outputAsciiArt("BattleWon", 115, 54);
+                timer += 1;
+                if (timer > 60 * 2) {
+                    timer = 0;
+                    state = State.Moving;
                 }
-                case MainMenu: {
-                    window.GetCurrentScreen().outputText("Main Menu: Press space to start...");
-                    if (window.GetCurrentScreen().getController().last.equals("attack")) {
-                        int[] coords = {0,0};
-                        GameEngine.player = new Player(40, new Weapon(), coords);
-                        state = State.Moving;
-                        createMap();
-                    }
-                    break;
+                break;
+            }
+            case NextLevel: {
+                if (level == 4) {
+                    state = State.WonGame;
+                    continue;
                 }
-                case PlayerDied: {
-                    if (timer == 0) window.GetCurrentScreen().outputText("Player died...Game Over");
-                    timer += 1;
-                    if (timer > 60 * 2) {
-                        timer = 0;
-                        //generate new map
-                        state = State.MainMenu;
-                    }
-                    break;
+                if (timer == 0)
+                    window.GetCurrentScreen().outputAsciiArt("NextLevel", 115, 54);
+                timer += 1;
+                if (timer > 60 * 2) {
+                    timer = 0;
+                    level += 1;
+                    createMap();
+                    state = State.Moving;
                 }
-                case BattleWon: {
-                    if (timer == 0) window.GetCurrentScreen().outputText("Battle Won...");
-                    timer += 1;
-                    if (timer > 60 * 2) {
-                        timer = 0;
-                        //generate new map
-                        state = State.Moving;
-                    }
-                    break;
+                break;
+            }
+            case WonGame: {
+                if (timer == 0)
+                    window.GetCurrentScreen().outputAsciiArt("GameWon", 110, 50);
+                timer += 1;
+                if (timer > 60 * 4) {
+                    timer = 0;
+                    state = State.Credits;
                 }
-                default: {
-                    break;
+                break;
+            }
+            case Credits: {
+                if (timer == 0)
+                    window.GetCurrentScreen().outputAsciiArt("Credits", 110, 50);
+                window.GetCurrentScreen().outputCredits();
+                timer++;
+                if (timer % 10 == 0) {
+                    creditSpeed++;
                 }
+                if (timer > 60 * 20) {
+                    timer = 0;
+                    state = State.MainMenu;
+                }
+                break;
+            }
+            case PlayerDied: {
+                if (timer == 0)
+                    window.GetCurrentScreen().outputAsciiArt("PlayerDied", 110, 50);
+                timer += 1;
+                if (timer > 60 * 2) {
+                    timer = 0;
+                    state = State.MainMenu;
+                }
+                break;
+            }
+            default: {
+                break;
+            }
             }
             long endTime = System.nanoTime();
 
@@ -133,35 +159,31 @@ public class GameEngine {
 
     private static void createMap() {
 
-        EntityType[] types = {
-                EntityType.Bull,
-                EntityType.Skeleton,
-                EntityType.Unicorn,
-                EntityType.Pig,
-                EntityType.Hobgoblin,
-                EntityType.Javathian,
-                EntityType.Dragon,
-                EntityType.Jester,
-                EntityType.Knight
+        EntityType[] types = { EntityType.SQL_JOINS,
+                // EntityType.Skeleton,
+                // EntityType.Unicorn,
+                // EntityType.Pig,
+                // EntityType.Hobgoblin,
+                // EntityType.Javathian,
+                // EntityType.Dragon,
+                // EntityType.Jester,
+                // EntityType.Knight
         };
-        map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
-                .populate("wall", EntityType.Wall)
-                .generateRandomMap(level, 10, 10, MAP_WIDTH*MAP_HEIGHT*5)
-                .carveOutRoom(MAP_WIDTH-15, MAP_HEIGHT-10, 15, 10, Color.GRAY)
-                .populateMap(35, types)
-                .placePlayer()
+        map = new MapFactory(MAP_WIDTH, MAP_HEIGHT).populate("wall", EntityType.Wall)
+                .generateRandomMap(level, 10, 10, MAP_WIDTH * MAP_HEIGHT * 5)
+                .carveOutRoom(MAP_WIDTH - 15, MAP_HEIGHT - 10, 15, 10, Color.GRAY).populateMap(35, types).placePlayer()
                 .build();
     }
 
     // private static void createTutorialMap() {
 
-    //     EntityType[] tutorialEnemy = {
-    //             EntityType.Pig
-    //     };
-    //     map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
-    //             .populate("wall", EntityType.Wall)
-    //             .carveOutRoom(1, 1, MAP_WIDTH-2, MAP_HEIGHT-2)
-    //             .populateMap(25, tutorialEnemy)
-    //             .build();
+    // EntityType[] tutorialEnemy = {
+    // EntityType.Pig
+    // };
+    // map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
+    // .populate("wall", EntityType.Wall)
+    // .carveOutRoom(1, 1, MAP_WIDTH-2, MAP_HEIGHT-2)
+    // .populateMap(25, tutorialEnemy)
+    // .build();
     // }
 }

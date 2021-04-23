@@ -16,24 +16,10 @@ public class Weapon {
     }
 
     /**
-     * @param Name the Name to set
-     */
-    private void setName(String Name) {
-        this.Name = Name;
-    }
-
-    /**
      * @return String return the Description
      */
     public String getDescription() {
         return Description;
-    }
-
-    /**
-     * @param Description the Description to set
-     */
-    private void setDescription(String Description) {
-        this.Description = Description;
     }
 
     /**
@@ -57,14 +43,12 @@ public class Weapon {
     }
 
     public Weapon() {
-        // TODO: Replace with better generic weapon instantiation
-        this.Name = "Spaghetti-Code";
-        this.Description = "Weak but effective";
-        this.Attacks = new ArrayList<Attack>();
-        this.Attacks.add(new Attack("This game", 1));
-        this.Attacks.add(new Attack("Sucks...", 5));
-        this.Attacks.add(new Attack("really bad", 10));
-        this.Attacks.add(new Attack("like really really", 1));
-        this.Attacks.add(new Attack("baaaaaaad", 1));
+
+    }
+
+    public Weapon(WeaponType type) {
+        this.Name = type.Name;
+        this.Description = type.Description;
+        this.Attacks = type.Attacks;
     }
 }

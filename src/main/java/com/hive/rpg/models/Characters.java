@@ -12,8 +12,8 @@ public class Characters extends Entity {
         return this.name;
     }
 
-    public void ReceiveAttack(int damage){
-        Health-=damage;
+    public void ReceiveAttack(int damage) {
+        Health -= damage;
     }
 
     /**
@@ -62,6 +62,11 @@ public class Characters extends Entity {
 
     public Characters(Integer Health, EntityType type, int[] coords) {
         super(type, coords);
+        this.Health = Health;
+    }
+
+    public Characters(String name, Integer Health, Weapon Weapon, EntityType type, int[] coords) {
+        super(name, type, coords);
         this.Health = Health;
     }
 

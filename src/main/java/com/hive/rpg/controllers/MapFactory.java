@@ -13,7 +13,6 @@ public class MapFactory {
     private MapTile[][] tiles;
     private int width;
     private int height;
-    public Player player;
     public Set<Entity> entities;
     public Set<Enemy> enemies;
 
@@ -49,7 +48,6 @@ public class MapFactory {
                 if (this.tiles[i][j].isPathable()) {
                     int[] coord = { i, j };
                     GameEngine.player.setCoord(coord);
-                    // this.tiles[i][j] = createTile("player", EntityType.Player, coord);
                     return this;
                 }
             }
@@ -58,7 +56,7 @@ public class MapFactory {
     }
 
     public Map build() {
-        return new Map(this.tiles, this.entities, this.enemies, GameEngine.player, this.width, this.height);
+        return new Map(this.tiles, this.entities, this.enemies, this.width, this.height);
     }
 
     public MapFactory generateRandomMap(int seed, int startX, int startY, int length) {

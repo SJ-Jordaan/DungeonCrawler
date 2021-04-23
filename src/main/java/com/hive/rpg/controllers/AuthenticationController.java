@@ -3,27 +3,22 @@ package com.hive.rpg.controllers;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Locale;
 import java.util.Scanner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hive.rpg.models.User;
 
-
 public class AuthenticationController {
     public User user;
     private Scanner scanner;
+
     public AuthenticationController() {
 
     }
 
-    public void initialize() {
+    public String initialize() {
         User temp = new User();
         temp.setupUser("", "aasdasdasdasdasdsddsadsads");
         user = temp;
@@ -34,6 +29,7 @@ public class AuthenticationController {
             Login();
         } while (user.equals(temp));
         scanner.close();
+        return user.username;
     }
 
     public void Login() {
@@ -66,14 +62,12 @@ public class AuthenticationController {
         return false;
     }
 
-    private User[] GetUsers () {
+    private User[] GetUsers() {
         try {
             URL url = new URL("https://608287be5dbd2c0017579c41.mockapi.io/api/v1/user");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
-            int status = con.getResponseCode();
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
             StringBuffer content = new StringBuffer();
             while ((inputLine = in.readLine()) != null) {
@@ -83,11 +77,10 @@ public class AuthenticationController {
             in.close();
             con.disconnect();
             return objectMapper.readValue(content.toString(), User[].class);
-        } catch (IOException exception){
-            System.out.println("An exception occured: "+ exception.toString());
+        } catch (IOException exception) {
+            System.out.println("An exception occured: " + exception.toString());
         }
         return null;
     }
-
 
 }

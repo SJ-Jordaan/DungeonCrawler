@@ -16,7 +16,7 @@ public class CombatView {
     private  int textHeight = 3;
     private  int menuCount = 3;
     private  int menuHeight = 3;
-    private  int xBuffer = 3;
+    private  int xBuffer = 0;
     private int enemyPaddingLeft;
     private int enemyPaddingTop;
     private int playerPaddingLeft;
@@ -137,7 +137,7 @@ public class CombatView {
         return text;
     }
 
-    public char[][] createCombatView(String playerFile, String enemyFile, String playerName, String enemyName, int mHealth, int pHealth, int eHealth, int index, String[] act, int playerMove, int enemyMove)
+    public char[][] createCombatView(String playerName, String enemyName, int mHealth, int pHealth, int eHealth, int index, String[] act, int playerMove, int enemyMove)
     {
         playerM = playerMove;
         enemyM = enemyMove;
@@ -155,14 +155,14 @@ public class CombatView {
         wordlist = new char[menuHeight*menuCount][textHeight][(int)((width)/menuCount - xBuffer)];
         for(int i = 0; i < actions.length; i++)
             wordlist[i] = toText(actions[i]);
-        player = readFile(resourcePath+playerFile+".txt", 110, 50,0);
-        enemy = readFile(resourcePath+enemyFile+".txt", 110, 50,1);
+        player = readFile(resourcePath+"Player.txt", 110, 50,0);
+        enemy = readFile(resourcePath+enemyName+".txt", 110, 50,1);
         return printCW();
     }
 
-    public char[][] createCombatView(String playerFile, String enemyFile, String playerName, String enemyName, int mHealth, int pHealth, int eHealth, int index, String[] act)
+    public char[][] createCombatView(String playerName, String enemyName, int mHealth, int pHealth, int eHealth, int index, String[] act)
     {
-        return createCombatView(playerFile, enemyFile, playerName, enemyName, mHealth, pHealth, eHealth, index, act, 0, 0);
+        return createCombatView(playerName, enemyName, mHealth, pHealth, eHealth, index, act, 0, 0);
     }
 
     public char[][] printCW()

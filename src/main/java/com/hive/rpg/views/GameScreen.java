@@ -10,28 +10,32 @@ public class GameScreen extends BaseScreen {
 
     private static final long serialVersionUID = -2250594602715438858L;
     public GameScreenController controller = new GameScreenController();
+    private CombatView view;
 
     GameScreen(int width, int height){
         super(width, height);
+        view = new CombatView(
+                this.getWidth(),
+                this.getHeight()
+        );
     }
 
     public void outputCombat(CombatHandler combatHandler){
         resetScreen();
         Player player = GameEngine.player;
-        CombatView view = new CombatView(
-            player.getName(),
-            combatHandler.getCurrentEnemy().getName(),
-            player.getName(),
-            combatHandler.getCurrentEnemy().getName(),
-            player.getHealth(),
-            combatHandler.getCurrentEnemy().getHealth(),
-            player.selected_attack,
-            player.getAttacks()
+
+        char[][] output = view.createCombatView(
+                player.getName(),
+                combatHandler.getCurrentEnemy().getName(),
+                65,
+                player.getHealth(),
+                combatHandler.getCurrentEnemy().getHealth(),
+                player.selected_attack,
+                player.getAttacks()
         );
-        char[][] output = view.createCombatView();
         for (int i = 0; i < view.width; i++) {
             for (int j = 0; j < view.height; j++) {
-                this.write(output[i][j], i, j);
+                this.write(output[i][j], i, j, Color.WHITE);
             }
         }
         this.repaint();

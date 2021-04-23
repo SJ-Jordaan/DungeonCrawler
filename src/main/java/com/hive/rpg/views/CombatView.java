@@ -17,6 +17,10 @@ public class CombatView {
     private  int menuCount = 3;
     private  int menuHeight = 3;
     private  int xBuffer = 3;
+    private int enemyPaddingLeft;
+    private int enemyPaddingTop;
+    private int playerPaddingLeft;
+    private int playerPaddingTop;
     char[][] playerText;
     char[][] enemyText;
     char[][] enemy;
@@ -38,36 +42,29 @@ public class CombatView {
     public int width() { return width; }
     public int height() { return height; }
 
-    public CombatView(String playerFile, String enemyFile, String playerName, String enemyName, int pHealth, int eHealth, int index, String[] act)
-    {
 
-        playerHealth = pHealth;
-        enemyHealth = eHealth;
-        actions = act.clone();
-        selectedIndex = index;
-        player = new char[20][20];
-        enemy = new char[60][60];
-        letterArr = readFile(resourcePath+"Letters.txt", 6, 171);
-        arrow = toText(">");
-        playerText = toText(playerName);
-        enemyText = toText(enemyName);
-        wordlist = new char[menuHeight*menuCount][textHeight][(int)((width)/menuCount - xBuffer)];
-        for(int i = 0; i < actions.length; i++)
-            wordlist[i] = toText(actions[i]);
-        player = readFile(resourcePath+playerFile+".txt", 110, 70);
-        enemy = readFile(resourcePath+enemyFile+".txt", 110, 70);
+
+    public CombatView(int fieldWidth, int fieldHeight)
+    {
+        width = fieldWidth;
+        height = fieldHeight;
     }
 
-    private char[][] readFile(String filename, int maxcolumns, int maxlines)
+    //index: 0 - player, 1 - enemy, 3 - other
+    private char[][] readFile(String filename, int maxcolumns, int maxlines, int index)
     {
+        int w = 0;
+        int i = 0;
         char[][] fileRes = new char[maxlines][maxcolumns];
 
         try {
             File myObj = new File(filename);
             Scanner myReader = new Scanner(myObj);
-            int i = 0;
+            
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
+                if(data.toCharArray().length > w)
+                    w = data.toCharArray().length;
                 for(int a = 0; a < maxcolumns; a++)
                 {
                     if(a >= data.toCharArray().length)
@@ -83,6 +80,16 @@ public class CombatView {
             myReader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+        if(index == 0)
+        {
+            playerPaddingLeft = (width/2 - w)/2;
+            playerPaddingTop = (height-16-i+1);
+        }
+        else if(index == 1)
+        {
+            enemyPaddingLeft = (width/2 - w)/2;
+            enemyPaddingTop = (height-16-i+1);
         }
         return fileRes;
     }
@@ -130,7 +137,27 @@ public class CombatView {
         return text;
     }
 
-    public char[][] createCombatView()
+    public char[][] createCombatView(String playerFile, String enemyFile, String playerName, String enemyName, int pHealth, int eHealth, int index, String[] act)
+    {
+        playerHealth = pHealth;
+        enemyHealth = eHealth;
+        actions = act.clone();
+        selectedIndex = index;
+        player = new char[20][20];
+        enemy = new char[60][60];
+        letterArr = readFile(resourcePath+"Letters.txt", 6, 171,0);
+        arrow = toText(">");
+        playerText = toText(playerName);
+        enemyText = toText(enemyName);
+        wordlist = new char[menuHeight*menuCount][textHeight][(int)((width)/menuCount - xBuffer)];
+        for(int i = 0; i < actions.length; i++)
+            wordlist[i] = toText(actions[i]);
+        player = readFile(resourcePath+playerFile+".txt", 110, 70,0);
+        enemy = readFile(resourcePath+enemyFile+".txt", 110, 70,1);
+        return printCW();
+    }
+
+    public char[][] printCW()
     {
         char[][] combatView = new char[width][height];
         maxHealth = 100;
@@ -205,21 +232,21 @@ public class CombatView {
                     else
                         combatView[x][y] = (' ');
                 }
-                else if(x >= width/2 && x < width && y >= 8 && y <= 34)
+                else if(x >= width/2 && x < width && y >= enemyPaddingTop && y <= 34)
                 {
-                    //combatView[x][y] = ln("y: " + (y - 8) + "x: " + (x-60));
-                    if( x < enemy[ y - 8].length + width)
-                    { combatView[x][y] = (enemy[ y - 8][x-width/2]);
+                    
+                    if( x < enemy[ y - enemyPaddingTop].length + width && x > width/2 + enemyPaddingLeft)
+                    { combatView[x][y] = (enemy[ y - enemyPaddingTop][x-width/2 - enemyPaddingLeft]);
                     }
                     else
                         combatView[x][y] = (' ');
                 }
-                else if(x >= 0 && x < width/2 && y >= 15 && y <= 34)
+                else if(x >= playerPaddingLeft && x < width/2 && y >= playerPaddingTop && y <= 34)
                 {
 
-                    //combatView[x][y] = ln("y: " + (y - 8) + "x: " + (x-10));
-                    if( x < player[ y - 15].length + 100 && player[ y - 15][x] != 0)
-                    { combatView[x][y] = (player[ y - 15][x]);
+                    
+                    if( x < player[ y - playerPaddingTop].length + 100 && player[ y - playerPaddingTop][x] != 0)
+                    { combatView[x][y] = (player[ y - playerPaddingTop][x-playerPaddingLeft]);
                     }
                     else
                         combatView[x][y] = (' ');
@@ -235,4 +262,5 @@ public class CombatView {
         }
         return combatView;
     }
+
 }

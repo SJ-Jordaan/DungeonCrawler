@@ -1,5 +1,6 @@
 package com.hive.rpg.controllers;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -24,14 +25,18 @@ public class MapFactory {
         this.enemies = new HashSet<Enemy>();
     }
 
-    public MapTile createTile(String name, EntityType type, int [] coord) {
+    public MapTile createTile(String name, EntityType type, int[] coord) {
         return new MapTile(name, coord, type);
+    }
+
+    public MapTile createTileWithColour(String name, EntityType type, int[] coord, Color color) {
+        return new MapTile(name, coord, type, color);
     }
 
     public MapFactory populate(String name, EntityType type) {
         for (int i = 0; i < this.width; i++) {
             for (int y = 0; y < this.height; y++) {
-                int [] coord = {i,y};
+                int[] coord = { i, y };
                 tiles[i][y] = createTile(name, type, coord);
             }
         }
@@ -42,9 +47,9 @@ public class MapFactory {
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
                 if (this.tiles[i][j].isPathable()) {
-                    int [] coord = {i,j};
+                    int[] coord = { i, j };
                     player = new Player(100, new Weapon(), coord);
-                    //this.tiles[i][j] = createTile("player", EntityType.Player, coord);
+                    // this.tiles[i][j] = createTile("player", EntityType.Player, coord);
                     return this;
                 }
             }
@@ -64,17 +69,17 @@ public class MapFactory {
 
         for (int i = 0; i < length; i++) {
             direction = randomNumber.nextInt(4);
-            if (direction == 0 && (x+1) < (width)) {
+            if (direction == 0 && (x + 1) < (width)) {
                 x += 1;
-            } else if (direction == 1 && (x-1) > 0) {
+            } else if (direction == 1 && (x - 1) > 0) {
                 x -= 1;
-            } else if (direction == 2 && (y+1) < (height)) {
+            } else if (direction == 2 && (y + 1) < (height)) {
                 y += 1;
-            } else if (direction == 3 && (y-1) > 0) {
+            } else if (direction == 3 && (y - 1) > 0) {
                 y -= 1;
             }
-    
-            int[] coord = {x,y};
+
+            int[] coord = { x, y };
             tiles[x][y] = createTile("floor", EntityType.Path, coord);
         }
         return this;
@@ -84,11 +89,11 @@ public class MapFactory {
         return new Entity(type, coord);
     }
 
-    public MapFactory carveOutRoom(int bottomX, int bottomY, int width, int height) {
+    public MapFactory carveOutRoom(int bottomX, int bottomY, int width, int height, Color color) {
         for (int x = bottomX; x < (bottomX + width); x++) {
             for (int y = bottomY; y < (bottomY + height); y++) {
-                int[] coord = {x,y};
-                tiles[x][y] = createTile("Room floor", EntityType.Path, coord);
+                int[] coord = { x, y };
+                tiles[x][y] = createTileWithColour("Room floor", EntityType.Path, coord, color);
             }
         }
         return this;
@@ -108,8 +113,8 @@ public class MapFactory {
             } while (!tiles[x][y].isPathable());
 
             entityType = randomNumber.nextInt(types.length);
-            int[] coord = {x,y};
-            
+            int[] coord = { x, y };
+
             ArrayList<Attack> attacks = new ArrayList<Attack>();
             attacks.add(new Attack("Attack", 2));
             Weapon weapon = new Weapon("Sarcasm", "I like your moves", attacks);

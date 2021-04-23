@@ -2,6 +2,7 @@ package com.hive.rpg.controllers;
 
 import com.hive.rpg.views.*;
 import com.hive.rpg.models.*;
+import java.awt.Color;
 
 public class GameEngine {
     public static Map map;
@@ -19,23 +20,24 @@ public class GameEngine {
 
     }
 
-    public void run(){
+    public void run() {
         boolean isRunning;
         int framesPerSecond = 60;
         int timePerLoop = 1000000000 / framesPerSecond;
-        window = new GameWindow(UI_WIDTH,UI_HEIGHT);
-        UI_HEIGHT-=window.getInsets().top;
-        UI_WIDTH-=window.getInsets().left;
+        window = new GameWindow(UI_WIDTH, UI_HEIGHT);
+        UI_HEIGHT -= window.getInsets().top;
+        UI_WIDTH -= window.getInsets().left;
         CombatHandler combatHandler = new CombatHandler();
-        MAP_WIDTH = UI_WIDTH/window.GetCurrentScreen().getCharWidth();
-        //UI_WIDTH = MAP_WIDTH*window.GetCurrentScreen().getCharWidth();
-        MAP_HEIGHT = UI_HEIGHT/window.GetCurrentScreen().getCharHeight();
-        //UI_HEIGHT = MAP_HEIGHT*window.GetCurrentScreen().getCharHeight();
-        //window.setSize(UI_WIDTH, UI_HEIGHT);
-        //window.setResizable(false);
-        createMap();
+        MAP_WIDTH = UI_WIDTH / window.GetCurrentScreen().getCharWidth();
+        // UI_WIDTH = MAP_WIDTH*window.GetCurrentScreen().getCharWidth();
+        MAP_HEIGHT = UI_HEIGHT / window.GetCurrentScreen().getCharHeight();
+        // UI_HEIGHT = MAP_HEIGHT*window.GetCurrentScreen().getCharHeight();
+        // window.setSize(UI_WIDTH, UI_HEIGHT);
+        // window.setResizable(false);
+        // createMap();
+        createTutorialMap();
         isRunning = true;
-            while(isRunning) {
+        while (isRunning) {
             long startTime = System.nanoTime();
             window.GetCurrentScreen().handleInput();
             updateMap();
@@ -69,36 +71,24 @@ public class GameEngine {
         map.moveEnemies();
     }
 
-    private static void createMap() {
+    // private static void createMap() {
 
-        EntityType[] types = {
-                EntityType.Bull,
-                EntityType.Skeleton,
-                EntityType.Unicorn,
-                EntityType.Pig,
-                EntityType.Hobgoblin,
-                EntityType.Javathian,
-                EntityType.Dragon,
-                EntityType.Jester,
-                EntityType.Knight
-        };
-        map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
-                .populate("wall", EntityType.Wall)
-                .generateRandomMap(2, 10, 10, MAP_WIDTH*MAP_HEIGHT*(4-level))
-                .populateMap(35, types)
-                .placePlayer()
-                .build();
-    }
-
-    // private static void createTutorialMap() {
-
-    //     EntityType[] tutorialEnemy = {
-    //             EntityType.Pig
-    //     };
-    //     map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
-    //             .populate("wall", EntityType.Wall)
-    //             .carveOutRoom(1, 1, MAP_WIDTH-2, MAP_HEIGHT-2)
-    //             .populateMap(25, tutorialEnemy)
-    //             .build();
+    // EntityType[] types = { EntityType.Bull, EntityType.Skeleton,
+    // EntityType.Unicorn, EntityType.Pig,
+    // EntityType.Hobgoblin, EntityType.Javathian, EntityType.Dragon,
+    // EntityType.Jester, EntityType.Knight };
+    // map = new MapFactory(MAP_WIDTH, MAP_HEIGHT).populate("wall", EntityType.Wall)
+    // .generateRandomMap(2, 10, 10, MAP_WIDTH * MAP_HEIGHT * (4 - level))
+    // .carveOutRoom(MAP_WIDTH - 20, MAP_HEIGHT - 10, 20, 10,
+    // Color.GRAY).populateMap(20, types).placePlayer()
+    // .build();
     // }
+
+    private static void createTutorialMap() {
+
+        EntityType[] tutorialEnemy = { EntityType.Pig };
+        map = new MapFactory(MAP_WIDTH, MAP_HEIGHT).populate("wall", EntityType.Wall)
+                .carveOutRoom(1, 1, MAP_WIDTH - 2, MAP_HEIGHT - 2, Color.BLACK).populateMap(5, tutorialEnemy)
+                .placePlayer().build();
+    }
 }

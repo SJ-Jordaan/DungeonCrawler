@@ -58,7 +58,7 @@ public class Player extends Characters implements ICharacterActions {
     public void move(GameScreenController inputHandler, Map map, CombatHandler combatHandler) {
         int[] c = this.getCoord().clone();
         switch (inputHandler.last.charAt(0)) {
-            case 'u': c[1] -= 1; break;
+            case 'u': c[1] -= 1; GameEngine.soundManager.playSound(); break;
             case 'd': c[1] += 1; break;
             case 'l': c[0] -= 1; break;
             case 'r': c[0] += 1; break;

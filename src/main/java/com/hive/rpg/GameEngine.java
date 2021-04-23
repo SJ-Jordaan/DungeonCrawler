@@ -11,6 +11,7 @@ public class GameEngine {
     public static Map map;
     public static Player player;
     public static GameWindow window;
+    public static SoundManager soundManager;
     private static int UI_WIDTH = 1200;
     private static int UI_HEIGHT = 800;
     private static int MAP_WIDTH;
@@ -38,6 +39,7 @@ public class GameEngine {
         //window.setSize(UI_WIDTH, UI_HEIGHT);
         //window.setResizable(false);
         createMap();
+        soundManager = new SoundManager();
         isRunning = true;
             while(isRunning) {
             long startTime = System.nanoTime();

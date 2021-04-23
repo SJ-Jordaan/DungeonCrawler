@@ -7,8 +7,8 @@ import java.io.FileNotFoundException;
 public class CombatView {
 
     private String resourcePath = "src/resources/";
-    public int width = 220;
-    public int height = 50;
+    public int width = 200;
+    public int height = 40;
     public int playerHealth;
     public int enemyHealth;
     public int maxHealth;
@@ -21,6 +21,8 @@ public class CombatView {
     private int enemyPaddingTop;
     private int playerPaddingLeft;
     private int playerPaddingTop;
+    private int playerM;
+    private int enemyM;
     char[][] playerText;
     char[][] enemyText;
     char[][] enemy;
@@ -41,8 +43,6 @@ public class CombatView {
     public char[][] letterArr;
     public int width() { return width; }
     public int height() { return height; }
-
-
 
     public CombatView(int fieldWidth, int fieldHeight)
     {
@@ -137,8 +137,11 @@ public class CombatView {
         return text;
     }
 
-    public char[][] createCombatView(String playerFile, String enemyFile, String playerName, String enemyName, int pHealth, int eHealth, int index, String[] act)
+    public char[][] createCombatView(String playerFile, String enemyFile, String playerName, String enemyName, int mHealth, int pHealth, int eHealth, int index, String[] act, int playerMove, int enemyMove)
     {
+        playerM = playerMove;
+        enemyM = enemyMove;
+        maxHealth = mHealth;
         playerHealth = pHealth;
         enemyHealth = eHealth;
         actions = act.clone();
@@ -152,15 +155,19 @@ public class CombatView {
         wordlist = new char[menuHeight*menuCount][textHeight][(int)((width)/menuCount - xBuffer)];
         for(int i = 0; i < actions.length; i++)
             wordlist[i] = toText(actions[i]);
-        player = readFile(resourcePath+playerFile+".txt", 110, 70,0);
-        enemy = readFile(resourcePath+enemyFile+".txt", 110, 70,1);
+        player = readFile(resourcePath+playerFile+".txt", 110, 50,0);
+        enemy = readFile(resourcePath+enemyFile+".txt", 110, 50,1);
         return printCW();
+    }
+
+    public char[][] createCombatView(String playerFile, String enemyFile, String playerName, String enemyName, int mHealth, int pHealth, int eHealth, int index, String[] act)
+    {
+        return createCombatView(playerFile, enemyFile, playerName, enemyName, mHealth, pHealth, eHealth, index, act, 0, 0);
     }
 
     public char[][] printCW()
     {
         char[][] combatView = new char[width][height];
-        maxHealth = 100;
         for(int y = 0; y < height; y++)
         {
             for(int x = 0; x < width; x++)
@@ -183,9 +190,9 @@ public class CombatView {
                     {
                         combatView[x][y] = (/*TEXT_BLUE + */playerText[y-1][x-4]/* + TEXT_RESET*/);
                     }
-                    else if(x>=width - maxHealth - 7 && x < enemyText[0].length + width - maxHealth - 7 && enemyText[y-1][x-113] != 0)
+                    else if(x>=width - maxHealth - 7 && x < enemyText[0].length + width - maxHealth - 7 && enemyText[y-1][x-(width - maxHealth - 7)] != 0)
                     {
-                        combatView[x][y] = (/*TEXT_GREEN + */enemyText[y-1][x-113]/* + TEXT_RESET*/);
+                        combatView[x][y] = (/*TEXT_GREEN + */enemyText[y-1][x-(width - maxHealth - 7)]/* + TEXT_RESET*/);
                     }
                     else
                     {
@@ -210,7 +217,7 @@ public class CombatView {
                 {
                     combatView[x][y] = ('#');
                 }
-                else if(y > height - 15 && x%(width/menuCount) == 0) //(x == width/menuCount || x == 2*width/menuCount))
+                else if(y >= height - 15 && x%(width/menuCount) == 0) //(x == width/menuCount || x == 2*width/menuCount))
                 {
                     combatView[x][y] = ('#');
                 }
@@ -219,10 +226,10 @@ public class CombatView {
                     //char[][] word = toText("Testing");
                     int ygroup = (y - height + 13)/(menuHeight+1);
                     int xgroup = x/(width/menuCount);
-                    if(ygroup + xgroup*3  == selectedIndex && x >= xgroup*(width/menuCount)+2 && x <= xgroup*(width/menuCount)+4)
+                    if(ygroup + xgroup*3  == selectedIndex && x >= xgroup*(width/menuCount)+2 && x <= xgroup*(width/menuCount)+4 && y - height + 13-4*ygroup < 3)
                     {
-                        if(arrow[2][y - height + 13-4*ygroup] != 0)
-                            combatView[x][y] = (arrow[2][y - height + 13-4*ygroup]);
+                        if(arrow[y - height + 13-4*ygroup][x-xgroup*(width/menuCount)-2] != 0)
+                            combatView[x][y] = (arrow[y - height + 13-4*ygroup][x-xgroup*(width/menuCount)-2]);
                         else
                             combatView[x][y] = (' ');
                     }
@@ -235,18 +242,16 @@ public class CombatView {
                 else if(x >= width/2 && x < width && y >= enemyPaddingTop && y <= 34)
                 {
                     
-                    if( x < enemy[ y - enemyPaddingTop].length + width && x > width/2 + enemyPaddingLeft)
-                    { combatView[x][y] = (enemy[ y - enemyPaddingTop][x-width/2 - enemyPaddingLeft]);
+                    if( x < enemy[ y - enemyPaddingTop].length + width && x > width/2 + enemyPaddingLeft + enemyM)
+                    { combatView[x][y] = (enemy[ y - enemyPaddingTop][x-width/2 - enemyPaddingLeft - enemyM]);
                     }
                     else
                         combatView[x][y] = (' ');
                 }
-                else if(x >= playerPaddingLeft && x < width/2 && y >= playerPaddingTop && y <= 34)
+                else if(x >= playerPaddingLeft + playerM && x < width/2 && y >= playerPaddingTop && y <= 34)
                 {
-
-                    
                     if( x < player[ y - playerPaddingTop].length + 100 && player[ y - playerPaddingTop][x] != 0)
-                    { combatView[x][y] = (player[ y - playerPaddingTop][x-playerPaddingLeft]);
+                    { combatView[x][y] = (player[ y - playerPaddingTop][x-playerPaddingLeft - playerM]);
                     }
                     else
                         combatView[x][y] = (' ');

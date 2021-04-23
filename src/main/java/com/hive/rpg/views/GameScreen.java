@@ -5,6 +5,10 @@ import com.hive.rpg.models.*;
 
 import java.awt.*;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class GameScreen extends BaseScreen {
 
@@ -15,8 +19,8 @@ public class GameScreen extends BaseScreen {
     GameScreen(int width, int height){
         super(width, height);
         view = new CombatView(
-                this.getWidth(),
-                this.getHeight()
+                (int)Math.floor((double)width/this.getCharWidth())-2,
+                (int)Math.floor((double)height/this.getCharHeight())-2
         );
     }
 
@@ -27,13 +31,12 @@ public class GameScreen extends BaseScreen {
         char[][] output = view.createCombatView(
                 player.getName(),
                 combatHandler.getCurrentEnemy().getName(),
-                65,
                 player.getHealth(),
                 combatHandler.getCurrentEnemy().getHealth(),
                 player.selected_attack,
                 player.getAttacks()
         );
-        for (int i = 0; i < view.width; i++) {
+        for (int i = 0; i < this.getWidth()/this.getCharWidth(); i++) {
             for (int j = 0; j < view.height; j++) {
                 this.write(output[i][j], i, j, Color.WHITE);
             }
@@ -68,6 +71,43 @@ public class GameScreen extends BaseScreen {
         }
     }
 
+    public void displayAsciiArt(String filename) {
+        filename = "src/resources/"+filename+".txt";
+        int w = 0;
+        int i = 0;
+        char[][] fileRes = new char[24][87];
+
+        try {
+            File myObj = new File(filename);
+            Scanner myReader = new Scanner(myObj);
+
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                if(data.toCharArray().length > w)
+                    w = data.toCharArray().length;
+                for(int a = 0; a < 87; a++)
+                {
+                    if(a >= data.toCharArray().length)
+                        fileRes[i][a] = ' ';
+                    else
+                    {
+                        fileRes[i][a] = data.toCharArray()[a];
+                    }
+                }
+                i++;
+
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        for (int k = 0; k < 86; k++) {
+            for (int j = 0; j < 24; j++) {
+                this.write(fileRes[j][k], this.getWidth()/this.getCharWidth()/2 -43+k, this.getHeight()/this.getCharHeight()/2-12+j, Color.WHITE);
+            }
+        }
+    }
+
     public void outputText(String string) {
         resetScreen();
         this.write(string, this.getWidth()/this.getCharWidth()/2 - string.length()/2, this.getHeight()/this.getCharHeight()/2, Color.WHITE);
@@ -79,7 +119,7 @@ public class GameScreen extends BaseScreen {
     }
 
     @Override
-    public KeyListener getController(){
+    public GameScreenController getController(){
         return this.controller;
     }
 

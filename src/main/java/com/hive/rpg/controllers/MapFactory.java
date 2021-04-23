@@ -48,7 +48,7 @@ public class MapFactory {
             for (int j = 0; j < this.height; j++) {
                 if (this.tiles[i][j].isPathable()) {
                     int[] coord = { i, j };
-                    player = new Player(100, new Weapon(), coord);
+                    GameEngine.player.setCoord(coord);
                     // this.tiles[i][j] = createTile("player", EntityType.Player, coord);
                     return this;
                 }
@@ -58,7 +58,7 @@ public class MapFactory {
     }
 
     public Map build() {
-        return new Map(this.tiles, this.entities, this.enemies, this.player, this.width, this.height);
+        return new Map(this.tiles, this.entities, this.enemies, GameEngine.player, this.width, this.height);
     }
 
     public MapFactory generateRandomMap(int seed, int startX, int startY, int length) {
@@ -118,7 +118,7 @@ public class MapFactory {
             ArrayList<Attack> attacks = new ArrayList<Attack>();
             attacks.add(new Attack("Attack", 2));
             Weapon weapon = new Weapon("Sarcasm", "I like your moves", attacks);
-            Enemy enemy = new Enemy(100, weapon, types[entityType], coord);
+            Enemy enemy = new Enemy(40, weapon, types[entityType], coord);
             enemies.add(enemy);
         }
         return this;

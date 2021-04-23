@@ -6,5 +6,6 @@ public enum State {
     NextLevel,
     BattleWon,
     PlayerDied,
-    MainMenu
+    MainMenu,
+    WonGame
 }

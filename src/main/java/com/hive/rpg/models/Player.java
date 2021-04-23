@@ -7,7 +7,7 @@ import com.hive.rpg.controllers.*;
 public class Player extends Characters implements ICharacterActions {
     public int selected_attack = 0;
     public boolean can_attack = false;
-    public Player(Integer Health, Weapon weapon,  int[] coords) {
+    public Player(Integer Health, Weapon weapon, int[] coords) {
         super(Health, weapon, EntityType.Player, coords);
     }
 

@@ -7,8 +7,8 @@ import java.io.FileNotFoundException;
 public class CombatView {
 
     private String resourcePath = "src/resources/";
-    public int width = 200;
-    public int height = 40;
+    public int width;
+    public int height;
     public int playerHealth;
     public int enemyHealth;
     public int maxHealth;
@@ -137,11 +137,11 @@ public class CombatView {
         return text;
     }
 
-    public char[][] createCombatView(String playerName, String enemyName, int mHealth, int pHealth, int eHealth, int index, String[] act, int playerMove, int enemyMove)
+    public char[][] createCombatView(String playerName, String enemyName, int pHealth, int eHealth, int index, String[] act, int playerMove, int enemyMove)
     {
         playerM = playerMove;
         enemyM = enemyMove;
-        maxHealth = mHealth;
+        maxHealth = 40;
         playerHealth = pHealth;
         enemyHealth = eHealth;
         actions = act.clone();
@@ -160,9 +160,9 @@ public class CombatView {
         return printCW();
     }
 
-    public char[][] createCombatView(String playerName, String enemyName, int mHealth, int pHealth, int eHealth, int index, String[] act)
+    public char[][] createCombatView(String playerName, String enemyName, int pHealth, int eHealth, int index, String[] act)
     {
-        return createCombatView(playerName, enemyName, mHealth, pHealth, eHealth, index, act, 0, 0);
+        return createCombatView(playerName, enemyName, pHealth, eHealth, index, act, 0, 0);
     }
 
     public char[][] printCW()

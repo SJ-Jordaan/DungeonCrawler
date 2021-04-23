@@ -3,6 +3,8 @@ package com.hive.rpg.controllers;
 import com.hive.rpg.views.*;
 import com.hive.rpg.models.*;
 
+import java.awt.*;
+
 public class GameEngine {
     public static Map map;
     public static Player player;
@@ -27,23 +29,22 @@ public class GameEngine {
         UI_HEIGHT-=window.getInsets().top;
         UI_WIDTH-=window.getInsets().left;
         CombatHandler combatHandler = new CombatHandler();
-        MAP_WIDTH = UI_WIDTH/window.GetCurrentScreen().getCharWidth();
-        //UI_WIDTH = MAP_WIDTH*window.GetCurrentScreen().getCharWidth();
-        MAP_HEIGHT = UI_HEIGHT/window.GetCurrentScreen().getCharHeight();
-        //UI_HEIGHT = MAP_HEIGHT*window.GetCurrentScreen().getCharHeight();
-        //window.setSize(UI_WIDTH, UI_HEIGHT);
-        //window.setResizable(false);
-        createMap();
+        MAP_WIDTH = (int)Math.floor((double)UI_WIDTH/window.GetCurrentScreen().getCharWidth());
+        MAP_HEIGHT = (int)Math.floor((double)UI_HEIGHT/window.GetCurrentScreen().getCharHeight());
+        state = State.WonGame;
         float timer = 0;
         isRunning = true;
             while(isRunning) {
             long startTime = System.nanoTime();
             window.GetCurrentScreen().handleInput();
-            updateMap();
             switch (state) {
                 case Moving: {
+                    updateMap();
                     player.move(window.GetCurrentScreen().controller, map, combatHandler);
                     window.GetCurrentScreen().outputMap(MAP_WIDTH, MAP_HEIGHT, UI_WIDTH, UI_HEIGHT, map);
+                    if (player.getX() > MAP_WIDTH-15 && player.getY() > MAP_HEIGHT-10) {
+                        state = State.NextLevel;
+                    }
                     break;
                 }
                 case Combat: {
@@ -55,17 +56,36 @@ public class GameEngine {
                     break;
                 }
                 case NextLevel: {
+                    if (level == 4) {state = State.WonGame; continue;}
                     if (timer == 0) window.GetCurrentScreen().outputText("Next Level...");
                     timer += 1;
                     if (timer > 60 * 2) {
                         timer = 0;
-                        //generate new map
+                        level+=1;
+                        createMap();
                         state = State.Moving;
                     }
                     break;
                 }
+                case WonGame: {
+                    if (timer == 0) window.GetCurrentScreen().displayAsciiArt("achievement");
+                    timer += 1;
+                    if (timer > 60 * 4) {
+                        timer = 0;
+                        level+=1;
+                        createMap();
+                        state = State.MainMenu;
+                    }
+                    break;
+                }
                 case MainMenu: {
-
+                    window.GetCurrentScreen().outputText("Main Menu: Press space to start...");
+                    if (window.GetCurrentScreen().getController().last.equals("attack")) {
+                        int[] coords = {0,0};
+                        GameEngine.player = new Player(40, new Weapon(), coords);
+                        state = State.Moving;
+                        createMap();
+                    }
                     break;
                 }
                 case PlayerDied: {
@@ -126,7 +146,8 @@ public class GameEngine {
         };
         map = new MapFactory(MAP_WIDTH, MAP_HEIGHT)
                 .populate("wall", EntityType.Wall)
-                .generateRandomMap(2, 10, 10, MAP_WIDTH*MAP_HEIGHT*(4-level))
+                .generateRandomMap(level, 10, 10, MAP_WIDTH*MAP_HEIGHT*5)
+                .carveOutRoom(MAP_WIDTH-15, MAP_HEIGHT-10, 15, 10, Color.GRAY)
                 .populateMap(35, types)
                 .placePlayer()
                 .build();

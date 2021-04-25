@@ -68,6 +68,7 @@ public class Characters extends Entity {
     public Characters(String name, Integer Health, Weapon Weapon, EntityType type, int[] coords) {
         super(name, type, coords);
         this.Health = Health;
+        this.Weapon = Weapon;
     }
 
 }

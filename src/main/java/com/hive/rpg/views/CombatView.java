@@ -13,22 +13,21 @@ public class CombatView {
     public int enemyHealth;
     public int maxHealth;
     private char wordlist[][][];
-    private  int textHeight = 3;
-    private  int menuCount = 3;
-    private  int menuHeight = 3;
-    private  int xBuffer = 0;
+    private int textHeight = 3;
+    private int menuCount = 3;
+    private int menuHeight = 3;
     private int enemyPaddingLeft;
     private int enemyPaddingTop;
     private int playerPaddingLeft;
     private int playerPaddingTop;
     private int playerM;
     private int enemyM;
-    char[][] playerText;
-    char[][] enemyText;
-    char[][] enemy;
-    char[][] player;
-    char[][] arrow;
-    int selectedIndex;
+    private char[][] playerText;
+    private char[][] enemyText;
+    private char[][] enemy;
+    private char[][] player;
+    private char[][] arrow;
+    private int selectedIndex;
     public String[] actions;
     public static final String TEXT_RESET = "\u001B[0m";
     public static final String TEXT_BLACK = "\u001B[30m";
@@ -124,10 +123,14 @@ public class CombatView {
                 text[0][indexCount] = letterArr[i][j];
                 text[1][indexCount] = letterArr[i+1][j];
                 text[2][indexCount] = letterArr[i+2][j];
-                j++;
-                indexCount++;
                 if(letterArr[i][j] == ' ' && letterArr[i+1][j] == ' ' && letterArr[i+2][j] == ' ')
                     letterEnd = true;
+                else if(j == 5)
+                    letterEnd = true;
+                else{
+                    j++;
+                    indexCount++;
+                }
             }while(!letterEnd);
             text[0][indexCount] = ' ';
             text[1][indexCount] = ' ';
@@ -146,13 +149,13 @@ public class CombatView {
         enemyHealth = eHealth;
         actions = act.clone();
         selectedIndex = index;
-        player = new char[20][20];
-        enemy = new char[60][60];
+        player = new char[40][40];
+        enemy = new char[40][40];
         letterArr = readFile(resourcePath+"Letters.txt", 6, 171,0);
         arrow = toText(">");
         playerText = toText(playerName);
         enemyText = toText(enemyName);
-        wordlist = new char[menuHeight*menuCount][textHeight][(int)((width)/menuCount - xBuffer)];
+        wordlist = new char[menuHeight*menuCount][textHeight][(int)((width)/menuCount)];
         for(int i = 0; i < actions.length; i++)
             wordlist[i] = toText(actions[i]);
         player = readFile(resourcePath+"Player.txt", 110, 50,0);

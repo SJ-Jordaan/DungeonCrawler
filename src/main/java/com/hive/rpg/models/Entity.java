@@ -71,6 +71,16 @@ public class Entity {
         this.colour = type.getColour();
     }
 
+    public Entity(char glyph, Color colour) {
+        this.glyph = glyph;
+        this.colour = colour;
+    }
+
+    public Entity(EntityType type) {
+        this.glyph = type.getGlyph();
+        this.colour = type.getColour();
+    }
+
     public String ToString() {
         return this.name;
     }

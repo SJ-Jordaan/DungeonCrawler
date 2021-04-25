@@ -51,7 +51,11 @@ public class Player extends Characters implements ICharacterActions {
             switchAttack(3);
             break;
         case 'a':
-            combatHandler.selectAttack(this.getWeapon().getAttacks().get(this.selected_attack));
+            if (getWeapon().getAttacks().size() < this.selected_attack) {
+                combatHandler.selectAttack(this.getWeapon().getAttacks().get(0));
+            } else {
+                combatHandler.selectAttack(this.getWeapon().getAttacks().get(this.selected_attack));
+            }
             this.can_attack = false;
             break;
         default:

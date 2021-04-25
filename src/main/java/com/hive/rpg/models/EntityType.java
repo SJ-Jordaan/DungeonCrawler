@@ -7,7 +7,8 @@ public enum EntityType {
     Hobgoblin('H', Color.yellow, "Hobgoblin"), Javathian('!', Color.magenta, "Javathian"),
     Dragon('!', Color.magenta, "Dragon"), Knight('K', Color.green, "Knight"), Jester('J', Color.pink, "Jester"),
     Pig('P', Color.green, "Pig"), Unicorn('U', Color.green, "Unicorn"), Path('.', Color.white, Color.black, true),
-    Wall('#', Color.white, Color.black, false),
+    Wall('#', Color.white, Color.black, false), Lucky('$', Color.magenta, "Lucky"), Tony('$', Color.magenta, "Tony"),
+    Rudolph('$', Color.magenta, "Rudolph"), YourMom('O', Color.red, "YourMom"),
 
     // CombatView Entities
     HP('X', Color.RED), Border('#', Color.ORANGE), HLine('=', Color.ORANGE), VLine('|', Color.ORANGE);

@@ -97,6 +97,26 @@ public class MapFactory {
         return this;
     }
 
+    public MapFactory populateMapWithBosses(EntityType[] types) {
+        Random randomNumber = new Random();
+        int x, y;
+        for (int i = 0; i < types.length; i++) {
+            do {
+                x = randomNumber.nextInt(width);
+                y = randomNumber.nextInt(height);
+            } while (!tiles[x][y].isPathable());
+
+            int[] coord = { x, y };
+
+            ArrayList<Attack> attacks = new ArrayList<>();
+            attacks.add(new Attack("Slapped", 9));
+            Weapon weapon = new Weapon("Sarcasm", "Nice", attacks);
+            Enemy enemy = new Enemy(40, weapon, types[i], coord);
+            enemies.add(enemy);
+        }
+        return this;
+    }
+
     public MapFactory populateMap(int numberOfEntities, EntityType[] types) {
         Random randomNumber = new Random();
         int x;

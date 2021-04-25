@@ -6,6 +6,7 @@ import java.util.Stack;
 
 public class CombatHandler {
     private Stack<Enemy> enemyStack;
+
     public CombatHandler() {
         enemyStack = new Stack<Enemy>();
     }
@@ -15,8 +16,15 @@ public class CombatHandler {
     }
 
     public void selectAttack(Attack attack) {
-        getCurrentEnemy().ReceiveAttack(attack.attack);
-        if (getCurrentEnemy().getHealth() <= 0) {
+        if (getCurrentEnemy().getHealth() - attack.attack < 0) {
+            getCurrentEnemy().ReceiveAttack(getCurrentEnemy().getHealth());
+        } else {
+            getCurrentEnemy().ReceiveAttack(attack.attack);
+        }
+        if (getCurrentEnemy().getHealth() == 0) {
+            if (!GameEngine.tutorialCompleted) {
+                GameEngine.tutorialCompleted = true;
+            }
             enemyStack.pop();
         }
     }
@@ -32,6 +40,7 @@ public class CombatHandler {
             GameEngine.player.can_attack = true;
         }
         if (enemyStack.empty()) {
+            GameEngine.player.can_attack = true;
             return false;
         }
         return true;

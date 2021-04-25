@@ -6,7 +6,7 @@ import com.hive.rpg.controllers.*;
 
 public class Player extends Characters implements ICharacterActions {
     public int selected_attack = 0;
-    public boolean can_attack = false;
+    public boolean can_attack = true;
 
     public Player(String name, Integer Health, Weapon weapon, int[] coords) {
         super(name, Health, weapon, EntityType.Player, coords);
@@ -14,13 +14,11 @@ public class Player extends Characters implements ICharacterActions {
 
     @Override
     public boolean EquipWeapon(Weapon Weapon) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean DropWeapon(Weapon Weapon) {
-        // TODO Auto-generated method stub
         return false;
     }
 

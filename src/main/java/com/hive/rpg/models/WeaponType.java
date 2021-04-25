@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public enum WeaponType {
   TutorialWeapon("Stick", "Yikes"), DBFundamentals("SQL", "Weak but painful"), Java("Java", "Noice"),
-  CSharp("CSharp", "Ew"), LuckySlayer("Lucky", "Yes it does");
+  CSharp("CSharp", "Ew"), LuckySlayer("Lucky", "Yes it does"), RudolphSlayer("Rudolph", "Nice guy"),
+  TonySlayer("Tony", "Nicer guy");
 
   public String Name;
   public String Description;
@@ -46,8 +47,25 @@ public enum WeaponType {
       attacks.add(new Attack("GIVE UP", 100));
       break;
     case "Lucky":
-      attacks.add(new Attack("IT DEPENDS", 1000));
+      attacks.add(new Attack("IT DEPENDS", 23));
       attacks.add(new Attack("OR DOES IT", -10));
+      attacks.add(new Attack("PROBABLY", 5));
+      break;
+    case "Rudolph":
+      attacks.add(new Attack("Compliment", 23));
+      attacks.add(new Attack("Compliment", 23));
+      attacks.add(new Attack("Compliment", 23));
+      attacks.add(new Attack("Compliment", 23));
+      attacks.add(new Attack("Compliment", 23));
+      attacks.add(new Attack("Compliment", 23));
+      attacks.add(new Attack("Compliment", 23));
+      attacks.add(new Attack("Compliment", 23));
+      attacks.add(new Attack("Compliment", 23));
+      break;
+    case "Tony":
+      attacks.add(new Attack("INSULT", 0));
+      attacks.add(new Attack("GIVE BEER", 39));
+      attacks.add(new Attack("KEEP BEER", -10));
       break;
     default:
       attacks.add(new Attack("WHAT", 1));

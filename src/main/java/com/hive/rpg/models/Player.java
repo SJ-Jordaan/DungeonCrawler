@@ -86,6 +86,13 @@ public class Player extends Characters implements ICharacterActions {
             Enemy enemy = map.getEnemyAt(coords);
             if (enemy != null) {
                 combatHandler.pushEnemy(enemy);
+                if (enemy.getName().equals("Lucky")) {
+                    setWeapons(new Weapon(WeaponType.LuckySlayer));
+                } else if (enemy.getName().equals("Rudolph")) {
+                    setWeapons(new Weapon(WeaponType.RudolphSlayer));
+                } else if (enemy.getName().equals("Tony")) {
+                    setWeapons(new Weapon(WeaponType.TonySlayer));
+                }
                 GameEngine.state = State.Combat;
             }
         }

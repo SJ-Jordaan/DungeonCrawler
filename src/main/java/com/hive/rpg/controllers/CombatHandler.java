@@ -24,6 +24,15 @@ public class CombatHandler {
         if (getCurrentEnemy().getHealth() == 0) {
             if (!GameEngine.tutorialCompleted) {
                 GameEngine.tutorialCompleted = true;
+            } else if (!GameEngine.luckyDefeated && getCurrentEnemy().getName().equals("Lucky")) {
+                GameEngine.luckyDefeated = true;
+                GameEngine.player.setHealth(40);
+            } else if (!GameEngine.rudolphDefeated && getCurrentEnemy().getName().equals("Rudolph")) {
+                GameEngine.rudolphDefeated = true;
+                GameEngine.player.setHealth(40);
+            } else if (!GameEngine.tonyDefeated && getCurrentEnemy().getName().equals("Tony")) {
+                GameEngine.tonyDefeated = true;
+                GameEngine.player.setHealth(40);
             }
             enemyStack.pop();
         }

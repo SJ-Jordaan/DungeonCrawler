@@ -8,7 +8,10 @@ public enum EntityType {
     Dragon('!', Color.magenta, "Dragon"), Knight('K', Color.green, "Knight"), Jester('J', Color.pink, "Jester"),
     Pig('P', Color.green, "Pig"), Unicorn('U', Color.green, "Unicorn"), Path('.', Color.white, Color.black, true),
     Wall('#', Color.white, Color.black, false), Lucky('$', Color.magenta, "Lucky"), Tony('$', Color.magenta, "Tony"),
-    Rudolph('$', Color.magenta, "Rudolph"), YourMom('O', Color.red, "YourMom");
+    Rudolph('$', Color.magenta, "Rudolph"), YourMom('O', Color.red, "YourMom"),
+
+    // CombatView Entities
+    HP('X', Color.RED), Border('#', Color.ORANGE), HLine('=', Color.ORANGE), VLine('|', Color.ORANGE);
 
     private boolean pathable;
     private char glyph;
@@ -16,6 +19,11 @@ public enum EntityType {
     private String type;
     private Color backgroundColour;
     private String filename;
+
+    EntityType(final char glyph, final Color colour) {
+        this.setGlyph(glyph);
+        this.setColour(colour);
+    }
 
     // Create player entity
     EntityType(final char glyph, final Color colour, String filename) {

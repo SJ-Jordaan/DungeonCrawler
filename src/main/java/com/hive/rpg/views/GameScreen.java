@@ -31,7 +31,10 @@ public class GameScreen extends BaseScreen {
 
         for (int i = 0; i < this.getWidth() / this.getCharWidth(); i++) {
             for (int j = 0; j < view.height; j++) {
+                if(output[i][j] != null)
                 this.write(output[i][j].getGlyph(), i, j, output[i][j].getColour());
+                //else
+                //System.out.println(j+ " " +i);
             }
         }
         this.repaint();

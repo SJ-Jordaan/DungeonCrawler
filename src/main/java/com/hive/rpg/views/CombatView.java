@@ -155,8 +155,8 @@ public class CombatView {
         wordlist = new Entity[menuHeight * menuCount][textHeight][(int) ((width) / menuCount)];
         for (int i = 0; i < actions.length; i++)
             wordlist[i] = toText(actions[i]);
-        player = readFile(resourcePath + "Player.txt", 28, 20, 2);
-        enemy = readFile(resourcePath + enemyName + ".txt", 110, 50, 2);
+        player = readFile(resourcePath + "Player.txt", 100, 50, 0);
+        enemy = readFile(resourcePath + enemyName + ".txt", 110, 50, 1);
 
         return printCW();
     }
@@ -219,7 +219,7 @@ public class CombatView {
                     else if (x - 5 - xgroup * (width / menuCount) >= 0
                             && (y - height + 13 - (textHeight + 1) * ygroup) < 3
                             && wordlist[ygroup + menuCount * xgroup][y - height + 13 - 4 * ygroup][x - 5
-                                    - xgroup * (width / menuCount)].getGlyph() != 0)
+                                    - xgroup * (width / menuCount)] != null)
                         combatView[x][y] = (wordlist[ygroup + menuCount * xgroup][y - height + 13 - 4 * ygroup][x - 5
                                 - xgroup * (width / menuCount)]);
                     else
@@ -231,8 +231,8 @@ public class CombatView {
                     } else
                         combatView[x][y] = new Entity(' ', Color.WHITE);
                 } else if (x >= playerPaddingLeft + playerM && x < width / 2 && y >= playerPaddingTop && y <= 34) {
-                    if (x < player[y - playerPaddingTop].length + width / 2
-                            && player[y - playerPaddingTop][x].getGlyph() != 0) {
+                    if (x < player[y - playerPaddingTop].length
+                            && player[y - playerPaddingTop][x] != null) {
                         combatView[x][y] = (player[y - playerPaddingTop][x - playerPaddingLeft - playerM]);
                     } else
                         combatView[x][y] = new Entity(' ', Color.WHITE);

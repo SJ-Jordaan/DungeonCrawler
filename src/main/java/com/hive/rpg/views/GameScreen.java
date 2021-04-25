@@ -24,12 +24,14 @@ public class GameScreen extends BaseScreen {
     public void outputCombat(CombatHandler combatHandler) {
         resetScreen();
 
-        char[][] output = view.createCombatView(GameEngine.player.getName(), combatHandler.getCurrentEnemy().getName(),
-                GameEngine.player.getHealth(), combatHandler.getCurrentEnemy().getHealth(),
-                GameEngine.player.selected_attack, GameEngine.player.getAttacks());
+        Entity[][] output = view.createCombatView(GameEngine.player.getName(),
+                combatHandler.getCurrentEnemy().getName(), GameEngine.player.getHealth(),
+                combatHandler.getCurrentEnemy().getHealth(), GameEngine.player.selected_attack,
+                GameEngine.player.getAttacks());
+
         for (int i = 0; i < this.getWidth() / this.getCharWidth(); i++) {
             for (int j = 0; j < view.height; j++) {
-                this.write(output[i][j], i, j, Color.WHITE);
+                this.write(output[i][j].getGlyph(), i, j, output[i][j].getColour());
             }
         }
         this.repaint();

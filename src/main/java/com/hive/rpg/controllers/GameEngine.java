@@ -28,7 +28,7 @@ public class GameEngine {
     }
 
     public void setup() {
-        state = State.WonGame;
+        state = State.MainMenu;
         window = new GameWindow(UI_WIDTH, UI_HEIGHT);
         UI_HEIGHT -= window.getInsets().top;
         UI_WIDTH -= window.getInsets().left;

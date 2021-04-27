@@ -9,13 +9,14 @@ public class MapTile extends Entity {
      */
     private boolean pathable = false;
     private Color backgroundColour;
-    
+
     /**
      * Can the player move onto this tile
      */
     public boolean isPathable() {
         return this.pathable;
     }
+
     /**
      * Get the background colour of the tile
      */
@@ -24,8 +25,14 @@ public class MapTile extends Entity {
     }
 
     public MapTile(String name, int[] coord, EntityType type) {
-        super(name, type, coord);
+        super(type, coord);
         this.backgroundColour = type.getBackgroundColour();
+        this.pathable = type.isPathable();
+    }
+
+    public MapTile(String name, int[] coord, EntityType type, Color backgroundColor) {
+        super(type, coord);
+        this.backgroundColour = backgroundColor;
         this.pathable = type.isPathable();
     }
 }

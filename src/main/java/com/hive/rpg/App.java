@@ -1,27 +1,15 @@
 package com.hive.rpg;
-import com.hive.rpg.map.*;
-import com.hive.rpg.models.*;
 
-import com.hive.rpg.Players.Player;
+import com.hive.rpg.controllers.AuthenticationController;
+import com.hive.rpg.controllers.GameEngine;
 
-/**
- * Hello world!
- *
- */
-
-public class App 
-{
-    private static Map map;
-    private static int MAP_WIDTH = 54;
-    private static int MAP_HEIGHT = 29;
-    private static int UI_WIDTH = 500;
-    private static int UI_HEIGHT = 500;
-    
-    public static void main( String[] args ) {
-        // Testing stuff for outputting generated map
-        // createMap();
-        // createTutorialMap();
-        GameEngine game = new GameEngine();
+public class App {
+    public static void main(String[] args) {
+        String username = "Player";
+        AuthenticationController authenticationController = new AuthenticationController();
+        username = authenticationController.initialize();
+        System.out.println("Welcome " + username);
+        GameEngine game = new GameEngine(username);
         game.run();
     }
 

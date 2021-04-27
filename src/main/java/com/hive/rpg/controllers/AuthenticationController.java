@@ -36,8 +36,6 @@ public class AuthenticationController {
                 login();
             } else if (choice.toLowerCase().equals("r")) {
                 register();
-            } else {
-
             }
         } while (auth);
         scanner.close();

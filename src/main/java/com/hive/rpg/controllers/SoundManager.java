@@ -1,4 +1,4 @@
-package com.hive.rpg;
+package com.hive.rpg.controllers;
 
 import java.awt.event.*;
 import javax.swing.*;

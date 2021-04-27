@@ -1,6 +1,5 @@
 package com.hive.rpg.controllers;
 
-import com.hive.rpg.SoundManager;
 import com.hive.rpg.views.*;
 
 import com.hive.rpg.Constants;
@@ -53,7 +52,6 @@ public class GameEngine {
     public void run() {
         setup();
         SoundManager.loadSounds();
-        SoundManager.playSound("other");
         while (isRunning) {
             long startTime = System.nanoTime();
             window.GetCurrentScreen().handleInput();
@@ -113,6 +111,7 @@ public class GameEngine {
                     window.GetCurrentScreen().outputCombat(combatHandler);
                 } else {
                     state = State.BattleWon;
+                    SoundManager.playSound("bonus");
                 }
                 break;
             }

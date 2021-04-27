@@ -9,29 +9,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SoundManager {
-    private Map<String, AudioInputStream> soundMap;
+    private static Map<String, URL> soundMap = new HashMap<String, URL> ();
+    private static Clip clip;
+    public static float volume = 0.1f;
     public SoundManager() {
-        soundMap = new HashMap<String, AudioInputStream> ();
         try {
             URL url = new URL("http://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/bonus.wav");
-            AudioInputStream ais = AudioSystem.getAudioInputStream(url);
-            Clip clip = AudioSystem.getClip();
-            soundMap.put("bonus", ais);
-            clip.open(soundMap.get("bonus"));
-            clip.setFramePosition(0);
-            clip.start();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException m) {
+            soundMap.put("bonus", url);
+        } catch (IOException m) {
             System.out.println(m.toString());
         }
     }
 
-    public void playSound () {
+    public void playSound (String sound) {
         try {
+            AudioInputStream ais = AudioSystem.getAudioInputStream(soundMap.get(sound));
             Clip clip = AudioSystem.getClip();
-            clip.open(soundMap.get("bonus"));
+            clip.open(ais);
             clip.setFramePosition(0);
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(20f * (float) Math.log10(volume));
             clip.start();
-        } catch (LineUnavailableException | IOException e ) {
+        } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e ) {
             System.out.println(e.toString());
         }
     }

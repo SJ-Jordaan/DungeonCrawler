@@ -6,9 +6,9 @@ import com.hive.rpg.controllers.GameEngine;
 public class App {
     public static void main(String[] args) {
         String username = "Player";
-        // AuthenticationController authenticationController = new
-        // AuthenticationController();
-        // username = authenticationController.initialize();
+        AuthenticationController authenticationController = new AuthenticationController();
+        username = authenticationController.initialize();
+        System.out.println("Welcome " + username);
         GameEngine game = new GameEngine(username);
         game.run();
     }

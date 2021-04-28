@@ -1,14 +1,13 @@
 package com.hive.rpg.controllers;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.Console;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hive.rpg.models.User;
+import com.backendless.Backendless;
+import com.backendless.BackendlessUser;
 
 public class AuthenticationController {
     public User user;

@@ -46,6 +46,7 @@ public class GameEngine {
         isRunning = true;
         int[] coords = { 0, 0 };
         GameEngine.player = new Player(username, 40, new Weapon(WeaponType.TutorialWeapon), coords);
+        SoundManager.loadSounds();
 
     }
 
@@ -110,6 +111,7 @@ public class GameEngine {
                 if (combatHandler.processCombat()) {
                     window.GetCurrentScreen().outputCombat(combatHandler);
                 } else {
+                    SoundManager.playSound("bonus");
                     state = State.BattleWon;
                     SoundManager.playSound("bonus");
                 }

@@ -51,7 +51,7 @@ public class GameEngine {
 
     public void run() {
         setup();
-
+        SoundManager.loadSounds();
         while (isRunning) {
             long startTime = System.nanoTime();
             window.GetCurrentScreen().handleInput();
@@ -111,6 +111,7 @@ public class GameEngine {
                     window.GetCurrentScreen().outputCombat(combatHandler);
                 } else {
                     state = State.BattleWon;
+                    SoundManager.playSound("bonus");
                 }
                 break;
             }

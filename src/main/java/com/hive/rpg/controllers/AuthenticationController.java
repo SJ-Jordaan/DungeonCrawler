@@ -39,6 +39,7 @@ public class AuthenticationController {
             }
         } while (auth);
         scanner.close();
+        System.out.println(user.getProperty("name"));
         return user.getProperty("name").toString();
     }
 
@@ -58,6 +59,8 @@ public class AuthenticationController {
         System.out.println("Username:");
         String username = scanner.nextLine();
         String password = hash(new String(console.readPassword("Password: ")));
+        user.setProperty("name", username);
+        user.setPassword(password);
 
         try {
             Backendless.UserService.login(username, password);

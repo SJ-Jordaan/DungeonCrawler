@@ -14,8 +14,8 @@ public class GameEngine {
     public static GameWindow window;
     public static CombatHandler combatHandler;
     public static State state;
-    public static boolean tutorialCompleted = false;
-    public static boolean bossFight = false;
+    public static boolean tutorialCompleted = true;
+    public static boolean bossFight = true;
     public static boolean luckyDefeated = false;
     public static boolean rudolphDefeated = false;
     public static boolean tonyDefeated = false;
@@ -23,7 +23,7 @@ public class GameEngine {
     private static int UI_HEIGHT = 800;
     private static int MAP_WIDTH;
     private static int MAP_HEIGHT;
-    private static int level = 0;
+    private static int level = 3;
     public static int timer = 0;
     public static int creditSpeed = 0;
     private static int framesPerSecond = 60;
@@ -36,7 +36,7 @@ public class GameEngine {
     }
 
     public void setup() {
-        state = State.MainMenu;
+        state = State.BossFight;
         window = new GameWindow(UI_WIDTH, UI_HEIGHT);
         UI_HEIGHT -= window.getInsets().top;
         UI_WIDTH -= window.getInsets().left;
@@ -191,6 +191,10 @@ public class GameEngine {
                 timer += 1;
                 if (timer > loadingTimes) {
                     timer = 0;
+                    tonyDefeated = false;
+                    luckyDefeated = false;
+                    rudolphDefeated = false;
+                    tutorialCompleted = false;
                     state = State.Credits;
                 }
                 break;

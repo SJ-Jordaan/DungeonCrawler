@@ -52,7 +52,7 @@ public class GameEngine {
 
     public void run() {
         setup();
-
+        SoundManager.loadSounds();
         while (isRunning) {
             long startTime = System.nanoTime();
             window.GetCurrentScreen().handleInput();
@@ -113,6 +113,7 @@ public class GameEngine {
                 } else {
                     SoundManager.playSound("bonus");
                     state = State.BattleWon;
+                    SoundManager.playSound("bonus");
                 }
                 break;
             }
